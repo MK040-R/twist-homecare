@@ -1,0 +1,320 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Twist home, Ink v2 (desktop)</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Eczar:wght@500..800&amp;family=Mukta:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+:root{
+  --surface:#F5F5F1; --surface-alt:#D5D8E7; --ink:#2D3370; --ink-muted:#4A4F75; --ink-subtle:#565B80; --accent:#F4D35E; --on-ink:#F5F5F1;
+  --everyday:#F6E4A0; --quikwash:#F5CACA; --undergarment:#CFE3F6;
+  --warm-1:#FBE6E6; --warm-2:#F5CFD0; --warm-3:#EDB5B7; --warm-4:#E3999C; --warm-5:#D77E82; --cool-1:#E6EFF8; --cool-2:#DCE8F5; --cool-3:#CFE1F2; --cool-4:#C0D7EE; --cool-5:#B3CFEA; --cool-6:#A2C4E5; --cool-7:#92B9E0; --cool-8:#80ADDA; --cool-9:#6C9FD3;
+  --font-body:'Mukta',sans-serif; --font-display:'Eczar',serif; --font-accent:'Eczar',serif; --font-accent-style:normal; --font-label:'Mukta',sans-serif;
+  --display-weight:600; --display-tracking:-0.012em; --display-stretch:100%; --wm-weight:700;
+  --label-weight:700; --label-tracking:.1em; --label-stretch:100%; --quote-weight:500;
+  --bottle-shadow:drop-shadow(0 16px 22px rgba(0,0,0,.35));
+}
+body{margin:0;background:var(--surface);color:var(--ink);font-family:var(--font-body)}
+a{color:var(--ink)}
+h1,h2,h3,h4,p{margin:0}
+.serif{font-family:'Instrument Serif',serif;font-style:italic;font-weight:400}
+.label{font-family:var(--font-label);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-muted)}
+.chip{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border:1px solid color-mix(in srgb, var(--ink) 25%, transparent);border-radius:999px;font-family:var(--font-label);font-size:12px;letter-spacing:.04em}
+.ldot{width:8px;height:8px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 1px var(--ink)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:0 24px;background:var(--ink);color:var(--on-ink);border-radius:999px;font-weight:500;font-size:16px;text-decoration:none;border:none;cursor:pointer}
+.tlink{display:inline-flex;align-items:center;gap:6px;min-height:44px;font-weight:500;font-size:16px;text-decoration:none;border-bottom:1px solid currentColor}
+.h2{font-size:52px;font-weight:500;letter-spacing:-0.025em;line-height:1.08}
+.body{font-size:18px;line-height:1.6;color:var(--ink-muted)}
+.pcard{background:var(--surface);border-radius:28px;overflow:hidden;display:flex;flex-direction:column}
+.ptint{position:relative;height:380px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:40px;box-sizing:border-box}
+.pbody{padding:28px 30px 30px;display:flex;flex-direction:column;gap:14px;flex-grow:1}
+.tag{display:inline-flex;align-items:center;min-height:30px;padding:0 12px;border-radius:999px;background:var(--surface-alt);font-size:13px}
+.ptab{display:flex;align-items:center;gap:16px;width:100%;min-height:76px;padding:0 22px;border-radius:18px;border:1px solid color-mix(in srgb, var(--ink) 14%, transparent);font-family:var(--font-body);font-size:19px;font-weight:500;cursor:pointer;text-align:left;box-sizing:border-box}
+.proof{background:var(--surface);border-radius:16px;padding:20px 22px;display:flex;flex-direction:column;gap:8px}
+.src{font-family:var(--font-label);font-size:11px;letter-spacing:.04em;color:var(--ink-subtle);line-height:1.5}
+.stage{display:flex;flex-direction:column;gap:12px}
+.simg{width:100%;height:160px;object-fit:cover;border-radius:16px;display:block}
+.ph{border:1.5px dashed color-mix(in srgb, var(--ink) 35%, transparent);border-radius:20px;display:flex;align-items:center;justify-content:center;text-align:center;color:var(--ink-muted);font-family:var(--font-label);font-size:12px;letter-spacing:.06em;text-transform:uppercase;padding:16px;box-sizing:border-box}
+.faqq{display:flex;justify-content:space-between;align-items:center;gap:24px;width:100%;min-height:72px;padding:0;background:transparent;border:none;border-top:1px solid color-mix(in srgb, var(--ink) 18%, transparent);font-family:var(--font-body);font-size:21px;font-weight:500;color:var(--ink);cursor:pointer;text-align:left}
+
+.subh{font-family:var(--font-display);font-weight:500;line-height:1.2;color:var(--ink-muted);letter-spacing:-0.01em}
+.mnav{display:flex;gap:4px;overflow-x:auto;margin:0 -12px 0 -8px;padding:0 12px 0 0;scrollbar-width:none}
+.mnav::-webkit-scrollbar{display:none}
+.mnav a{flex:0 0 auto;display:flex;align-items:center;min-height:44px;padding:0 10px;font-size:15px;font-weight:500;text-decoration:none;color:var(--ink);white-space:nowrap}
+.car{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;margin:0 -16px;padding:0 16px 6px;scroll-padding-left:16px;scrollbar-width:none}
+.car::-webkit-scrollbar{display:none}
+
+.svgl{font-family:var(--font-label)}
+.serif{font-family:inherit!important;font-style:normal!important;font-size:inherit!important;font-weight:inherit!important;letter-spacing:inherit!important}
+p.serif{font-family:var(--font-body)!important;font-size:19px!important;font-weight:var(--quote-weight)!important;line-height:1.4!important;color:var(--ink)}
+h1,h2,.h2{font-family:var(--font-display);font-weight:var(--display-weight)!important;letter-spacing:var(--display-tracking)!important;font-stretch:var(--display-stretch)}
+.label{font-weight:var(--label-weight);letter-spacing:var(--label-tracking)!important;font-stretch:var(--label-stretch)}
+.chip{font-weight:var(--label-weight)}
+.wm{font-family:var(--font-display);font-weight:var(--wm-weight)!important;font-stretch:var(--display-stretch)}
+img[alt*="bottle"]{filter:var(--bottle-shadow)}
+
+.ptint{background:var(--ink)!important}
+.ptint .label{color:var(--on-ink)!important;opacity:.85}
+
+</style>
+</helmet>
+<div style="width: 1440px; height: 5298px; box-sizing: border-box; display: flex; flex-direction: column; background: var(--surface); overflow: hidden">
+
+  <div style="height: 84px; padding: 0 72px; display: flex; align-items: center; justify-content: space-between; flex-shrink: 0">
+    <a class="wm" href="home-desktop.dc.html" style="text-decoration: none; font-size: 32px; font-weight: 600; letter-spacing: -0.03em">twist</a>
+    <nav style="display: flex; align-items: center; gap: 40px; font-size: 16px">
+      <a href="why-twist-desktop.dc.html" style="text-decoration: none">Why Twist?</a>
+      <a href="blog-desktop.dc.html" style="text-decoration: none">Blogs</a>
+      <a href="about-desktop.dc.html" style="text-decoration: none">About Us</a>
+      <a class="btn" href="#notify" style="min-height: 46px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"></path><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"></path></svg>Notify me</a>
+    </nav>
+  </div>
+
+  <div id="hero" style="height: 760px; padding: 0 72px; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 32px; align-items: center; flex-shrink: 0">
+    <div style="grid-column: span 6; display: flex; flex-direction: column; gap: 26px">
+      <h1 style="font-size: 76px; font-weight: 500; letter-spacing: -0.035em; line-height: 1.02">A brand that <span class="serif" style="font-size: 88px">cares</span> for your clothes</h1>
+      <p class="body" style="font-size: 20px; max-width: 540px">We tackle dirty laundry with clean science. Our [Name]™ technology provides advanced cleaning, precisely targets your stains and protects your fabric.</p>
+      <div style="display: flex; gap: 28px; align-items: center">
+        <a class="btn" href="#washes" style="min-height: 54px; padding: 0 28px; font-size: 17px">See our products<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12l7 7 7-7"></path></svg></a>
+      </div>
+    </div>
+    <div style="grid-column: span 6; position: relative; height: 700px">
+      <div style="position: absolute; left: 36px; top: 60px; width: 580px; height: 580px; border-radius: 50%; background: var(--surface-alt)"></div>
+      <div style="position: absolute; left: 50px; right: 30px; bottom: 58px; height: 1px; background: color-mix(in srgb, var(--ink) 18%, transparent)"></div>
+      <img src="../assets/bottle-quikwash.webp" alt="Twist Quikwash bottle, prototype pack design" style="position: absolute; left: 50px; bottom: 58px; height: 400px; width: auto; display: block">
+      <img src="../assets/bottle-undergarment.webp" alt="Twist Undergarment Wash pump bottle, prototype pack design" style="position: absolute; left: 437px; bottom: 58px; height: 320px; width: auto; display: block">
+      <img src="../assets/bottle-everyday.webp" alt="Twist Everyday Wash bottle, prototype pack design" style="position: absolute; left: 225px; bottom: 58px; height: 520px; width: auto; display: block">
+    </div>
+  </div>
+
+  <div id="washes" style="background: var(--surface-alt); padding: 120px 72px; display: flex; flex-direction: column; gap: 48px; flex-shrink: 0">
+    <div style="display: flex; justify-content: space-between; align-items: flex-end">
+      <div style="display: flex; flex-direction: column; gap: 16px">
+        <h2 class="h2">Pick your <span class="serif" style="font-size: 60px">wash</span>.</h2>
+      </div>
+      <p class="body" style="max-width: 440px">One bottle can't do every job well, so we're making three, each built for one kind of load.</p>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px">
+      <div class="pcard">
+        <div class="ptint" style="background: var(--everyday)"><span class="label" style="position: absolute; left: 22px; top: 20px; color: var(--ink)">Machine · everyday loads</span><img src="../assets/bottle-everyday.webp" alt="Twist Everyday Wash bottle, prototype pack design" style="height: 270px; width: auto; display: block"></div>
+        <div class="pbody">
+          <h3 style="font-size: 32px; font-weight: 500; letter-spacing: -0.02em">Everyday Wash</h3>
+          <p style="font-size: 16px; line-height: 1.55; color: var(--ink-muted)">For the daily pile, in any machine.</p>
+          <div style="display: flex; flex-wrap: wrap; gap: 6px"><span class="tag">Cottons</span><span class="tag">Blends</span><span class="tag">Bedsheets</span><span class="tag">Towels</span></div>
+          <p class="serif" style="font-size: 21px; line-height: 1.3">“Clothes should wear out because you loved them, not because you washed them.”</p>
+          <div style="display: flex; gap: 20px; align-items: center; margin-top: auto; padding-top: 6px"><a class="btn" href="#notify">Notify me</a><a class="tlink" href="everyday-wash-desktop.dc.html" aria-label="Learn more about Everyday Wash">Learn more</a></div>
+        </div>
+      </div>
+      <div class="pcard">
+        <div class="ptint" style="background: var(--quikwash)"><span class="label" style="position: absolute; left: 22px; top: 20px; color: var(--ink)">Machine · quick cycle</span><img src="../assets/bottle-quikwash.webp" alt="Twist Quikwash bottle, prototype pack design" style="height: 270px; width: auto; display: block"></div>
+        <div class="pbody">
+          <h3 style="font-size: 32px; font-weight: 500; letter-spacing: -0.02em">Quikwash</h3>
+          <p style="font-size: 16px; line-height: 1.55; color: var(--ink-muted)">For sweaty synthetics on a short cycle.</p>
+          <div style="display: flex; flex-wrap: wrap; gap: 6px"><span class="tag">Gym wear</span><span class="tag">Athleisure</span><span class="tag">Polyester shirts</span></div>
+          <p class="serif" style="font-size: 21px; line-height: 1.3">“A short wash should still be a complete wash.”</p>
+          <div style="display: flex; gap: 20px; align-items: center; margin-top: auto; padding-top: 6px"><a class="btn" href="#notify">Notify me</a><a class="tlink" href="quikwash-desktop.dc.html" aria-label="Learn more about Quikwash">Learn more</a></div>
+        </div>
+      </div>
+      <div class="pcard">
+        <div class="ptint" style="background: var(--undergarment)"><span class="label" style="position: absolute; left: 22px; top: 20px; color: var(--ink)">Hand wash · cold water</span><img src="../assets/bottle-undergarment.webp" alt="Twist Undergarment Wash pump bottle, prototype pack design" style="height: 220px; width: auto; display: block"></div>
+        <div class="pbody">
+          <h3 style="font-size: 32px; font-weight: 500; letter-spacing: -0.02em">Undergarment Wash</h3>
+          <p style="font-size: 16px; line-height: 1.55; color: var(--ink-muted)">For intimate stains, washed by hand.</p>
+          <div style="display: flex; flex-wrap: wrap; gap: 6px"><span class="tag">Innerwear</span><span class="tag">Period stains</span><span class="tag">Lingerie</span></div>
+          <p class="serif" style="font-size: 21px; line-height: 1.3">“Your most intimate laundry deserves more than a bar of soap.”</p>
+          <div style="display: flex; gap: 20px; align-items: center; margin-top: auto; padding-top: 6px"><a class="btn" href="#notify">Notify me</a><a class="tlink" href="undergarment-wash-desktop.dc.html" aria-label="Learn more about Undergarment Wash">Learn more</a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="why" style="padding: 130px 72px; display: flex; flex-direction: column; gap: 52px; flex-shrink: 0">
+    <div style="display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 48px; align-items: end">
+      <div style="grid-column: span 7; display: flex; flex-direction: column; gap: 16px">
+        <h2 class="h2">What most detergents <span class="serif" style="font-size: 60px">get wrong</span>.</h2>
+        <p class="subh" style="font-size: 30px">Why we're making our own.</p>
+      </div>
+      <p class="body" style="grid-column: span 5">Pick a problem to see why it happens and the evidence behind it.</p>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 32px; align-items: start">
+      <div style="grid-column: span 4; display: flex; flex-direction: column; gap: 10px" role="tablist" aria-orientation="vertical">
+        <sc-for list="{{probs}}" as="p" hint-placeholder-count="6">
+          <button class="ptab" role="tab" style="background: {{p.bg}}; color: {{p.fg}}; border-color: {{p.bd}}" onClick="{{p.pick}}" aria-selected="{{p.on}}"><span style="font-family: var(--font-label); font-size: 13px; opacity: .7">{{p.num}}</span><span style="flex-grow: 1">{{p.title}}</span><span style="font-size: 20px">→</span></button>
+        </sc-for>
+      </div>
+      <div style="grid-column: span 8; background: var(--surface-alt); border-radius: 28px; padding: 36px; display: flex; flex-direction: column; gap: 22px; min-height: 620px; box-sizing: border-box">
+        <div style="background: var(--surface); border-radius: 20px; height: 250px; display: flex; align-items: center; justify-content: center; overflow: hidden">
+          <sc-if value="{{is1}}" hint-placeholder-val="{{ false }}">
+            <svg width="620" height="200" viewBox="0 0 620 200" fill="none" role="img" aria-label="pH scale from 0 to 14 with healthy skin below 5 and laundry powder at 10 or higher">
+              <g stroke-width="1.2" style="stroke:var(--ink)"><rect x="20" y="90" width="41" height="40" style="fill:var(--warm-5)"></rect><rect x="61" y="90" width="41" height="40" style="fill:var(--warm-4)"></rect><rect x="102" y="90" width="41" height="40" style="fill:var(--warm-3)"></rect><rect x="143" y="90" width="41" height="40" style="fill:var(--warm-2)"></rect><rect x="184" y="90" width="41" height="40" style="fill:var(--warm-1)"></rect><rect x="225" y="90" width="41" height="40" style="fill:var(--surface)"></rect><rect x="266" y="90" width="41" height="40" style="fill:var(--surface)"></rect><rect x="307" y="90" width="41" height="40" style="fill:var(--surface)"></rect><rect x="348" y="90" width="41" height="40" style="fill:var(--cool-1)"></rect><rect x="389" y="90" width="41" height="40" style="fill:var(--cool-3)"></rect><rect x="430" y="90" width="41" height="40" style="fill:var(--cool-5)"></rect><rect x="471" y="90" width="41" height="40" style="fill:var(--cool-6)"></rect><rect x="512" y="90" width="41" height="40" style="fill:var(--cool-8)"></rect><rect x="553" y="90" width="41" height="40" style="fill:var(--cool-9)"></rect></g>
+              <g font-family="sans-serif" class="svgl" font-size="11" style="fill:var(--ink-muted)"><text x="16" y="150">0</text><text x="292" y="150">7</text><text x="584" y="150">14</text><text x="20" y="172">ACIDIC</text><text x="276" y="172">NEUTRAL</text><text x="536" y="172">ALKALINE</text></g>
+              <line x1="213" y1="44" x2="213" y2="90" stroke-width="2" style="stroke:var(--ink)"></line><circle cx="213" cy="44" r="5" style="fill:var(--ink)"></circle>
+              <text x="120" y="32" font-family="sans-serif" class="svgl" font-size="12" style="fill:var(--ink)">HEALTHY SKIN · BELOW 5</text>
+              <line x1="450" y1="44" x2="450" y2="90" stroke-width="2" style="stroke:var(--ink)"></line><circle cx="450" cy="44" r="5" style="fill:var(--ink)"></circle>
+              <text x="380" y="32" font-family="sans-serif" class="svgl" font-size="12" style="fill:var(--ink)">LAUNDRY POWDER · 10+</text>
+            </svg>
+          </sc-if>
+          <sc-if value="{{is2}}" hint-placeholder-val="{{ false }}">
+            <svg width="620" height="200" viewBox="0 0 620 200" fill="none" stroke-linecap="round" role="img" aria-label="A yarn fraying and shedding loose fibres" style="stroke:var(--ink)">
+              <path d="M40 110 C 120 80, 200 140, 280 110 S 400 80, 440 110" stroke-width="14" style="stroke:var(--quikwash)"></path>
+              <path d="M40 110 C 120 80, 200 140, 280 110 S 400 80, 440 110" stroke-width="2"></path>
+              <path d="M60 104 C 120 76, 200 136, 280 104 S 400 76, 440 104" stroke-width="1.2" opacity=".5"></path>
+              <path d="M60 116 C 120 88, 200 148, 280 116 S 400 88, 440 116" stroke-width="1.2" opacity=".5"></path>
+              <g stroke-width="1.4"><path d="M440 110 q 20 -20 40 -18"></path><path d="M440 110 q 24 -4 46 6"></path><path d="M440 110 q 18 14 36 28"></path><path d="M500 70 q 10 6 22 2"></path><path d="M520 120 q 12 -8 24 -2"></path><path d="M540 88 q 8 10 20 8"></path><path d="M560 140 q 10 -4 18 4"></path><path d="M580 100 q 6 -8 16 -6"></path><path d="M500 160 q 10 -6 20 0"></path><path d="M556 56 q 8 4 16 0"></path></g>
+              <text x="40" y="180" font-family="sans-serif" class="svgl" font-size="12" stroke="none" style="fill:var(--ink)">ONE 6 KG ACRYLIC WASH · 700,000+ FIBRES SHED</text>
+            </svg>
+          </sc-if>
+          <sc-if value="{{is3}}" hint-placeholder-val="{{ false }}">
+            <svg width="620" height="200" viewBox="0 0 660 200" fill="none" role="img" aria-label="Water hardness scale from 0 to 600 milligrams per litre with India's limits at 200 and 600">
+              <rect x="0" y="80" width="66" height="36" stroke-width="1.5" style="fill:var(--surface); stroke:var(--ink)"></rect>
+              <rect x="66" y="80" width="66" height="36" stroke-width="1.5" style="fill:var(--cool-2); stroke:var(--ink)"></rect>
+              <rect x="132" y="80" width="66" height="36" stroke-width="1.5" style="fill:var(--cool-4); stroke:var(--ink)"></rect>
+              <rect x="198" y="80" width="462" height="36" stroke-width="1.5" style="fill:var(--cool-7); stroke:var(--ink)"></rect>
+              <g font-family="sans-serif" class="svgl" font-size="11" style="fill:var(--ink)"><text x="6" y="103">SOFT</text><text x="72" y="103">MOD.</text><text x="138" y="103">HARD</text><text x="360" y="103">VERY HARD</text></g>
+              <g font-family="sans-serif" class="svgl" font-size="11" style="fill:var(--ink-muted)"><text x="0" y="136">0</text><text x="186" y="136">180</text><text x="630" y="136">600 MG/L</text></g>
+              <line x1="220" y1="50" x2="220" y2="122" stroke-width="2" style="stroke:var(--ink)"></line><circle cx="220" cy="50" r="4" style="fill:var(--ink)"></circle>
+              <text x="228" y="46" font-family="sans-serif" class="svgl" font-size="11" style="fill:var(--ink)">200 · BIS ACCEPTABLE</text>
+              <line x1="658" y1="50" x2="658" y2="122" stroke-width="2" style="stroke:var(--ink)"></line><circle cx="658" cy="50" r="4" style="fill:var(--ink)"></circle>
+              <text x="452" y="30" font-family="sans-serif" class="svgl" font-size="11" style="fill:var(--ink)">600 · BIS IF NO OTHER SOURCE</text>
+              <rect x="220" y="156" width="110" height="28" rx="14" stroke-width="1.5" style="fill:var(--accent); stroke:var(--ink)"></rect>
+              <text x="342" y="175" font-family="sans-serif" class="svgl" font-size="11" style="fill:var(--ink)">← WHERE WE TEST: 200 TO 300</text>
+            </svg>
+          </sc-if>
+          <sc-if value="{{is4}}" hint-placeholder-val="{{ false }}">
+            <svg width="620" height="210" viewBox="0 0 620 210" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="A polyester shirt giving off strong odour next to a cotton shirt giving off much less" style="stroke:var(--ink)">
+              <g transform="translate(110 70)"><path d="M0 20 L30 0 L50 10 Q60 22 70 10 L90 0 L120 20 L105 48 L94 42 L94 120 L26 120 L26 42 L15 48 Z" style="fill:var(--quikwash)"></path></g>
+              <path d="M140 60 q8 -12 0 -24 q-8 -12 0 -24 M170 52 q8 -12 0 -24 q-8 -12 0 -24 M200 60 q8 -12 0 -24 q-8 -12 0 -24" stroke-width="1.8" style="stroke:var(--ink-muted)"></path>
+              <g stroke="none" style="fill:var(--ink)"><ellipse cx="150" cy="130" rx="5" ry="3"></ellipse><ellipse cx="172" cy="146" rx="5" ry="3"></ellipse><ellipse cx="190" cy="124" rx="5" ry="3"></ellipse><ellipse cx="160" cy="162" rx="5" ry="3"></ellipse><ellipse cx="200" cy="156" rx="5" ry="3"></ellipse></g>
+              <g transform="translate(390 70)"><path d="M0 20 L30 0 L50 10 Q60 22 70 10 L90 0 L120 20 L105 48 L94 42 L94 120 L26 120 L26 42 L15 48 Z" style="fill:var(--surface)"></path></g>
+              <path d="M450 58 q8 -12 0 -24" stroke-width="1.8" style="stroke:var(--ink-muted)"></path>
+              <g font-family="sans-serif" class="svgl" font-size="12" stroke="none" style="fill:var(--ink)"><text x="120" y="206">POLYESTER · STRONGER ODOUR</text><text x="400" y="206">COTTON · WEAKER</text></g>
+            </svg>
+          </sc-if>
+          <sc-if value="{{is5}}" hint-placeholder-val="{{ false }}">
+            <svg width="620" height="200" viewBox="0 0 620 200" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="A protein stain chain being cut into small pieces by an enzyme, next to a bar of soap with no enzymes" style="stroke:var(--ink)">
+              <rect x="40" y="70" width="130" height="70" rx="18" style="fill:var(--surface)"></rect><path d="M60 92 h90 M60 106 h70" stroke-width="1.4" opacity=".4"></path>
+              <text x="44" y="170" font-family="sans-serif" class="svgl" font-size="12" stroke="none" style="fill:var(--ink)">BAR SOAP · NO ENZYMES</text>
+              <g stroke-width="1.4" style="fill:var(--warm-5); stroke:var(--ink)"><circle cx="250" cy="100" r="11"></circle><circle cx="276" cy="100" r="11"></circle><circle cx="302" cy="100" r="11"></circle><circle cx="328" cy="100" r="11"></circle><circle cx="354" cy="100" r="11"></circle></g>
+              <path d="M380 76 L406 100 L380 124" stroke-width="2.4"></path><path d="M388 100 h40" stroke-dasharray="3 5"></path>
+              <circle cx="398" cy="100" r="22" style="fill:var(--undergarment)"></circle><path d="M398 100 L420 88 A 24 24 0 0 0 420 112 Z" style="fill:var(--surface)"></path>
+              <g stroke-width="1.4" style="fill:var(--warm-5); stroke:var(--ink)"><circle cx="470" cy="84" r="9"></circle><circle cx="500" cy="112" r="9"></circle><circle cx="530" cy="80" r="9"></circle><circle cx="556" cy="116" r="9"></circle></g>
+              <text x="240" y="170" font-family="sans-serif" class="svgl" font-size="12" stroke="none" style="fill:var(--ink)">PROTEIN STAIN · CUT UP BY AN ENZYME</text>
+            </svg>
+          </sc-if>
+          <sc-if value="{{is6}}" hint-placeholder-val="{{ false }}">
+            <svg width="620" height="210" viewBox="0 0 620 210" fill="none" stroke-width="2" stroke-linejoin="round" role="img" aria-label="Cross-section of a detergent pack split into filler and cleaning ingredients, illustrative only" style="stroke:var(--ink)">
+              <path d="M220 30 h180 l10 20 v140 h-200 v-140 Z" style="fill:var(--surface)"></path>
+              <rect x="212" y="120" width="196" height="68" stroke="none" style="fill:var(--surface-alt)"></rect>
+              <g stroke-width="1" opacity=".6" style="stroke:var(--ink-muted)"><path d="M220 130 l20 -10 M240 150 l40 -20 M260 170 l60 -30 M300 180 l80 -40 M350 186 l58 -30 M220 170 l40 -20"></path></g>
+              <rect x="212" y="70" width="196" height="50" stroke="none" style="fill:var(--everyday)"></rect>
+              <path d="M220 30 h180 l10 20 v140 h-200 v-140 Z" fill="none"></path>
+              <line x1="210" y1="120" x2="410" y2="120" stroke-dasharray="4 4"></line>
+              <g font-family="sans-serif" class="svgl" font-size="12" stroke="none" style="fill:var(--ink)"><text x="430" y="100">CLEANING INGREDIENTS</text><text x="430" y="160">FILLER · ADDS WEIGHT</text><text x="30" y="160">ILLUSTRATIVE,</text><text x="30" y="176">NOT TO SCALE</text></g>
+              <path d="M424 96 h-14 M424 156 h-14"></path>
+            </svg>
+          </sc-if>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 12px">
+          <span class="label">{{cur.num}}</span>
+          <h3 style="font-size: 34px; font-weight: 500; letter-spacing: -0.02em">{{cur.title}}</h3>
+          <p style="font-size: 17px; line-height: 1.6; color: var(--ink-muted)">{{cur.expl}}</p>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px">
+          <div class="proof"><span class="label" style="color: var(--ink)">Proof</span><p style="font-size: 17px; line-height: 1.45; font-weight: 500">{{cur.proof}}</p><span class="src">{{cur.src}}</span></div>
+          <div class="proof" style="background: var(--ink); color: var(--on-ink)"><span class="label" style="color: var(--accent)">What we're doing</span><p style="font-size: 17px; line-height: 1.45">{{cur.ours}}</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="where" style="background: var(--surface-alt); padding: 120px 72px 110px; display: flex; flex-direction: column; gap: 44px; flex-shrink: 0">
+    <div style="display: flex; justify-content: space-between; align-items: flex-end">
+      <h2 class="h2">Where are we <span class="serif" style="font-size: 60px">now</span>?</h2>
+      <span class="label">Last updated [DATE]</span>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 20px">
+      <div class="stage"><div style="height: 6px; border-radius: 999px; background: color-mix(in srgb, var(--ink) 12%, transparent); overflow: hidden"><div style="width: 55%; height: 100%; background: var(--ink)"></div></div><span class="label" style="color: var(--ink)">Now</span><div style="font-size: 22px; font-weight: 500">Formulation</div><img class="simg" src="../assets/home-route-formulation.webp" alt="Laboratory glassware with liquid"><p style="font-size: 15px; line-height: 1.5; color: var(--ink-muted)">Getting each formula right.</p></div>
+      <div class="stage"><div style="height: 6px; border-radius: 999px; background: color-mix(in srgb, var(--ink) 12%, transparent)"></div><span class="label">Next</span><div style="font-size: 22px; font-weight: 500; color: var(--ink-muted)">Internal testing</div><img class="simg" src="../assets/home-route-internal-testing.webp" alt="Front-load washing machine at home" style="opacity: .85"><p style="font-size: 15px; line-height: 1.5; color: var(--ink-muted)">Our own washes, real clothes.</p></div>
+      <div class="stage"><div style="height: 6px; border-radius: 999px; background: color-mix(in srgb, var(--ink) 12%, transparent)"></div><span class="label">Then</span><div style="font-size: 22px; font-weight: 500; color: var(--ink-muted)">Independent labs</div><img class="simg" src="../assets/home-route-independent-labs.webp" alt="Lab technician placing a sample under a microscope" style="opacity: .85"><p style="font-size: 15px; line-height: 1.5; color: var(--ink-muted)">Third-party tests.</p></div>
+      <div class="stage"><div style="height: 6px; border-radius: 999px; background: color-mix(in srgb, var(--ink) 12%, transparent)"></div><span class="label">Then</span><div style="font-size: 22px; font-weight: 500; color: var(--ink-muted)">Home trials</div><img class="simg" src="../assets/home-route-home-trials.webp" alt="Laundry basket of clothes at home" style="opacity: .85"><p style="font-size: 15px; line-height: 1.5; color: var(--ink-muted)">Real homes, before launch.</p></div>
+      <div class="stage"><div style="height: 6px; border-radius: 999px; background: color-mix(in srgb, var(--ink) 12%, transparent)"></div><span class="label">Target</span><div style="font-size: 22px; font-weight: 500; color: var(--ink-muted)">Launch</div><img class="simg" src="../assets/home-route-launch.webp" alt="Cardboard delivery box" style="opacity: .85"><p style="font-size: 15px; line-height: 1.5; color: var(--ink-muted)">[MONTH YEAR]</p></div>
+    </div>
+    <span class="src">Photos: Unsplash</span>
+  </div>
+
+  <div id="about" style="padding: 130px 88px; display: flex; gap: 80px; align-items: center; flex-shrink: 0">
+    <div style="display: flex; flex-direction: column; gap: 12px; flex-shrink: 0">
+      <div class="ph" style="width: 400px; height: 320px">Candid photo, daylight</div>
+      <span class="label">Murali &amp; Farzyn · Hyderabad</span>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 20px; max-width: 640px">
+      <h2 style="font-size: 46px; font-weight: 500; letter-spacing: -0.025em; line-height: 1.12">Two people who wanted to know what's <span class="serif" style="font-size: 52px">in the bottle</span>.</h2>
+      <p class="body">[Two or three lines in your own words: why laundry, why now, and how to reach you directly.]</p>
+    </div>
+  </div>
+
+  <div id="faq" style="background: var(--surface-alt); padding: 120px 88px; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 48px; flex-shrink: 0">
+    <div style="grid-column: span 4; display: flex; flex-direction: column; gap: 16px">
+      <h2 class="h2">Fair <span class="serif" style="font-size: 60px">questions</span>.</h2>
+    </div>
+    <div style="grid-column: span 8; display: flex; flex-direction: column; border-bottom: 1px solid color-mix(in srgb, var(--ink) 18%, transparent)">
+      <sc-for list="{{faqs}}" as="f" hint-placeholder-count="7">
+        <div>
+          <button class="faqq" onClick="{{f.toggle}}" aria-expanded="{{f.open}}"><span>{{f.q}}</span><span style="font-weight: 300; font-size: 26px">{{f.sign}}</span></button>
+          <sc-if value="{{f.open}}" hint-placeholder-val="{{ false }}"><p style="font-size: 17px; line-height: 1.6; color: var(--ink-muted); padding: 0 60px 24px 0">{{f.a}}</p></sc-if>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="margin-top: auto; padding: 28px 88px; border-top: 1px solid color-mix(in srgb, var(--ink) 14%, transparent); display: flex; justify-content: space-between; font-family: var(--font-label); font-size: 12px; color: var(--ink-muted)">
+    <span>Sherali Consumer Private Limited · Hyderabad · [contact email]</span>
+    <span>Nothing is on sale yet · Privacy · Terms</span>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":5298}}'>
+class Component extends DCLogic {
+  constructor(props) { super(props); this.state = { prob: 0, faq: 0 }; }
+  renderVals() {
+    var self = this;
+    var P = [
+      { title: 'Too harsh', expl: 'Detergents are often made strongly alkaline, because a high pH breaks down grease and stains fast. The same alkalinity can leave skin dry and irritated, and wears fibres down wash after wash.', proof: 'Laundry powders typically wash at pH 10 or higher. Healthy skin sits below pH 5.', src: 'Skin pH: Lambers et al., Int. J. Cosmetic Science, 2006', ours: 'Each formula is being built to clean at the gentlest pH that does the job. We will print the number on the pack.' },
+      { title: "Doesn't protect fabric", expl: 'Detergents are sold on how clean clothes look after one wash. Very few are tested on what fifty washes do to colour, stretch and strength.', proof: 'A single 6 kg wash of acrylic clothes can shed over 700,000 fibres.', src: 'Napper & Thompson, Marine Pollution Bulletin, 2016', ours: 'Everyday Wash is being tested for fibre strength, fading and pilling across repeated washes.' },
+      { title: 'Not made for Indian conditions', expl: 'Minerals in hard water latch onto cleaning agents before they reach the dirt, so you add more and still get stiff, dull clothes. Much of our laundry is also washed cold, straight from the tap.', proof: "India's drinking-water standard allows hardness up to 600 mg/L. Anything above 180 counts as very hard.", src: 'BIS IS 10500:2012 · USGS hardness classes', ours: 'Every formula is tested at 200 to 300 mg/L hardness and 10 to 40°C water.' },
+      { title: 'Lets the smell come back', expl: 'Polyester holds on to skin oil, and the bacteria that feed on it produce the smell. A short wash rarely reaches that oil, so the odour returns the moment you sweat again.', proof: 'After a workout, polyester shirts smelled significantly worse than cotton, with odour bacteria thriving on the polyester.', src: 'Callewaert et al., Applied and Environmental Microbiology, 2014', ours: 'Quikwash is being built for synthetics and tested for re-odour over repeated washes.' },
+      { title: 'Leaves stains behind', expl: 'Blood, sweat and other intimate stains are proteins. They need enzymes to break down, and heat can set them, which is why a cold hand wash with bar soap so often leaves a mark.', proof: 'Protein stains need enzymes to break down. Plain soap has none, so it relies on scrubbing alone.', src: 'How protein stains are removed', ours: 'Undergarment Wash is being tested on six intimate stains in a cold hand wash.' },
+      { title: 'Cuts corners to cut the price', expl: 'Some powders are bulked out with ingredients that add weight but do no cleaning, so the pack looks like more for the money.', proof: 'Many detergent powders use sodium sulphate as a filler. It adds weight to the pack but does no cleaning.', src: 'Check the ingredient list on your pack', ours: 'Concentrated liquids at 25 ml a load, with a full ingredient list on every pack.' }
+    ];
+    var s = this.state.prob;
+    var probs = P.map(function (p, i) {
+      var on = i === s;
+      return { num: '0' + (i + 1), title: p.title, on: on ? 'true' : 'false', bg: on ? 'var(--ink)' : 'transparent', fg: on ? 'var(--surface)' : 'var(--ink)', bd: on ? 'var(--ink)' : 'color-mix(in srgb, var(--ink) 14%, transparent)', pick: function () { self.setState({ prob: i }); } };
+    });
+    var cur = P[s];
+    var faqData = [
+      ['Is Twist on sale yet?', 'Not yet. All three washes are still being developed and tested. Leave your email and we will write the day they are ready.'],
+      ['When will it launch?', 'We are aiming for [MONTH YEAR]. If testing takes longer, we will say so here rather than rush it.'],
+      ['Are your claims tested yet?', 'Not all of them. The formulas are still being developed and tested. Nothing is final, and every claim on this site is a target until the tests back it up.'],
+      ['How much will it cost?', 'We will share prices with everyone on the list before launch.'],
+      ['Where will you deliver?', 'We will sell online first. Delivery areas go out to everyone on the list before launch.'],
+      ['Is it safe for sensitive skin and baby clothes?', 'That is one of the things we are testing, with a skin irritation test on washed fabric. We will publish the result.'],
+      ['Will you spam me?', 'No. One email when we launch, and the occasional update if a test result is worth sharing. Unsubscribe in one click.']
+    ];
+    var f = this.state.faq;
+    var faqs = faqData.map(function (x, i) {
+      var open = i === f;
+      return { q: x[0], a: x[1], open: open, sign: open ? '−' : '+', toggle: function () { self.setState({ faq: open ? -1 : i }); } };
+    });
+    return { probs: probs, cur: { num: '0' + (s + 1), title: cur.title, expl: cur.expl, proof: cur.proof, src: cur.src, ours: cur.ours }, is1: s === 0, is2: s === 1, is3: s === 2, is4: s === 3, is5: s === 4, is6: s === 5, faqs: faqs };
+  }
+}
+</script>
+</body>
+</html>
