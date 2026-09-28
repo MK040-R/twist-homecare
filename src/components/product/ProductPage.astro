@@ -121,7 +121,7 @@ const others = PRODUCT_ORDER.filter((p) => p !== id);
               <span class="label">{OTHER_CARD[o].label}</span>
               <h3>{PRODUCTS[o].name}</h3>
               <p>{OTHER_CARD[o].line}</p>
-              <a class="tlink" href={PRODUCTS[o].href} aria-label={`Learn more about ${PRODUCTS[o].name}`}>Learn more</a>
+              <a class="tlink" href={PRODUCTS[o].href}>Learn more<span class="sr-only"> about {PRODUCTS[o].name}</span></a>
             </div>
           </article>
         ))}

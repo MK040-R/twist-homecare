@@ -1,0 +1,32 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import { PRODUCTS, PRODUCT_ORDER } from '../data/site';
+---
+<Base title="Page not found · Twist" description="This page could not be found." noindex>
+  <section class="nf" aria-labelledby="nf-h1">
+    <div class="wrap">
+      <h1 id="nf-h1">This page went missing in the wash.</h1>
+      <p class="body">The link may be old, or the address may have a typo.</p>
+      <div><a class="btn" href="/">Go to the homepage</a></div>
+      <p class="label">Or see our washes:</p>
+      <ul>
+        {PRODUCT_ORDER.map((id) => (
+          <li><a class="tlink" href={PRODUCTS[id].href}>{PRODUCTS[id].name}<Icon name="arrow-right" size={16} stroke={2} /></a></li>
+        ))}
+      </ul>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .nf { padding-block: 56px 80px; }
+  .wrap { max-width: calc(680px + 2 * var(--gutter)); display: flex; flex-direction: column; gap: 16px; }
+  h1 { font-size: 34px; line-height: 1.1; }
+  .label { margin-top: 16px; color: var(--ink); }
+  ul { display: flex; flex-wrap: wrap; gap: 8px 24px; }
+  @media (min-width: 960px) {
+    .nf { padding-block: 120px 160px; }
+    h1 { font-size: clamp(40px, 3.61vw, 52px); }
+  }
+</style>

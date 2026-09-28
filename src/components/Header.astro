@@ -1,7 +1,7 @@
 ---
-import { NAV } from '../data/site';
+import { NAV, cleanPath } from '../data/site';
 
-const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+const path = cleanPath(Astro.url.pathname);
 const isCurrent = (href: string) => path === href || path.startsWith(href + '/');
 ---
 <header class="site-header">

@@ -8,9 +8,9 @@
     "build": "astro build",
     "preview": "astro build && wrangler dev --port 8787",
     "deploy": "astro build && wrangler deploy",
-    "assets:og": "node scripts/make-og.mjs",
     "fonts": "python3 scripts/subset-fonts.py",
-    "qa:screens": "node scripts/qa-screens.mjs"
+    "qa:screens": "node scripts/qa-screens.mjs",
+    "assets:brand": "python3 scripts/make-icons.py && node scripts/make-brand-images.mjs"
   },
   "dependencies": {
     "astro": "7.3.5",

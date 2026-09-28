@@ -66,3 +66,7 @@ export const POPUP = {
   s3Title: 'That helps a lot. Thank you!',
   s3Button: 'Close',
 };
+
+/** "/why-twist.html" and "/index.html" become "/why-twist" and "/": the URLs visitors see. */
+export const cleanPath = (pathname: string) =>
+  pathname.replace(/\/index\.html$/, '/').replace(/\.html$/, '').replace(/(.)\/$/, '$1') || '/';

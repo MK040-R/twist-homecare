@@ -170,7 +170,7 @@ const route = [
                 <p class="quote d-only">{c.quote}</p>
                 <div class="actions">
                   <NotifyButton product={c.id} class="btn notify" ariaLabel={`Notify me when ${PRODUCTS[c.id].name} launches`} />
-                  <a class="tlink learn" href={PRODUCTS[c.id].href} aria-label={`Learn more about ${PRODUCTS[c.id].name}`}>Learn more</a>
+                  <a class="tlink learn" href={PRODUCTS[c.id].href}>Learn more<span class="sr-only"> about {PRODUCTS[c.id].name}</span></a>
                 </div>
               </div>
             </article>
@@ -453,6 +453,10 @@ const route = [
   .stop p { font-size: 14px; line-height: 1.4; color: var(--ink-muted); }
   .stop.now .label, .stop.now h3 { color: var(--ink); }
   .credit { display: block; margin-top: 20px; }
+
+  /* The hero bottle group and the route map are fixed-size drawings: scale them down on small phones. */
+  @media (max-width: 389.98px) { .hero-art, .route { zoom: .9; } }
+  @media (max-width: 359.98px) { .hero-art, .route { zoom: .8; } }
 
   @media (min-width: 960px) {
     .where { padding-block: 120px 110px; }

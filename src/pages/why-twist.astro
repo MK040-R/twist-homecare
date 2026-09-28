@@ -1,0 +1,253 @@
+---
+import { Picture } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { ALT, PRODUCTS, PRODUCT_ORDER } from '../data/site';
+import { BOTTLES } from '../data/products';
+
+const myths = [
+  ['More foam means a better clean.', 'Foam is a side effect of some cleaning agents. It says nothing about how clean your clothes get.'],
+  ['Brighter whites are cleaner whites.', 'Optical brighteners are dyes that make fabric reflect blue light. Clothes look brighter without being any cleaner.'],
+  ['A longer wash is a better wash.', 'Clothes that are more sweaty than dirty come clean in a short cycle, if the detergent is made for it.'],
+  ["If it smells strong, it's clean.", "Fragrance makes laundry pleasant. It doesn't remove dirt, and it can cover a smell that's still there."],
+  ['Natural is always better.', "A short, natural-sounding ingredient list doesn't make a better formula. What matters is what each ingredient does in the wash."],
+  ['One detergent works for everything.', 'Towels, gym wear and underwear get dirty in different ways, so they need different chemistry.'],
+];
+
+const principles = [
+  ['One job per bottle', 'Every Twist product is built around one problem it exists to solve.'],
+  ['Made for how India does laundry', 'Hard water, tap-temperature washes, front-load, top-load and the bucket. Our formulas are designed for all of it.'],
+  ['Nothing hidden', 'The full ingredient list goes on every pack and on this site, with what each ingredient is there to do.'],
+];
+
+const leftOut = ['Phosphates', 'Parabens', 'Bleach', 'Optical brighteners'];
+
+const washes = [
+  { id: 'everyday-wash', line: 'For the daily pile, in any machine.', hM: 112, hD: 230 },
+  { id: 'quikwash', line: "For clothes that smell more than they're dirty.", hM: 112, hD: 230 },
+  { id: 'undergarment-wash', line: 'For intimate stains, washed by hand.', hM: 100, hD: 200 },
+] as const;
+void PRODUCT_ORDER;
+---
+<Base
+  title="Why Twist? We did the homework on laundry"
+  description="People check the fabric, the fit and the reviews, then wash it in whatever detergent is at home. Twist exists to close that gap."
+>
+  <section class="w-hero" aria-labelledby="w-h1">
+    <div class="wrap">
+      <div class="w-copy">
+        <h1 id="w-h1">We did the homework on laundry, so you don't have to.</h1>
+        <p class="body">People spend ₹2,000 on a dress and check the fabric, the fit and the reviews, then wash it in whatever detergent happens to be at home. Twist exists to close that gap, with laundry care from people who have done the thinking for you.</p>
+      </div>
+      <div class="w-panel">
+        <div class="w-art">
+          <Picture class="bottle b-qw" src={BOTTLES.quikwash} alt={ALT.bottle.quikwash} formats={['avif', 'webp']} widths={[140, 280, 371]} sizes="(min-width: 960px) 136px, 66px" loading="eager" fetchpriority="high" />
+          <Picture class="bottle b-uw" src={BOTTLES['undergarment-wash']} alt={ALT.bottle['undergarment-wash']} formats={['avif', 'webp']} widths={[100, 200, 329]} sizes="(min-width: 960px) 97px, 47px" loading="eager" fetchpriority="high" />
+          <Picture class="bottle b-ew" src={BOTTLES['everyday-wash']} alt={ALT.bottle['everyday-wash']} formats={['avif', 'webp']} widths={[160, 350]} sizes="(min-width: 960px) 163px, 78px" loading="eager" fetchpriority="high" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="myths band-alt" aria-labelledby="myths-h">
+    <div class="wrap">
+      <h2 class="h2" id="myths-h">What laundry ads taught us, and what's actually true.</h2>
+      <ul class="car myth-list" aria-label="Six laundry myths" tabindex="0">
+        {myths.map(([told, truth]) => (
+          <li class="myth">
+            <div class="told">
+              <span class="label">What we were told</span>
+              <s class="told-t">{told}</s>
+            </div>
+            <div class="truth">
+              <span class="label">What's true</span>
+              <p>{truth}</p>
+            </div>
+          </li>
+        ))}
+      </ul>
+      <p class="swipe m-only" aria-hidden="true">Swipe for all six <Icon name="arrow-right" size={14} /></p>
+    </div>
+  </section>
+
+  <section class="make" aria-labelledby="make-h">
+    <div class="wrap">
+      <h2 class="h2" id="make-h">How we make things.</h2>
+      <ol class="principles">
+        {principles.map(([title, body], i) => (
+          <li>
+            <span class="num" aria-hidden="true">{i + 1}</span>
+            <div class="pr-text">
+              <h3>{title}</h3>
+              <p>{body}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="out band-alt" aria-labelledby="out-h">
+    <div class="wrap">
+      <h2 class="h2" id="out-h">What we leave out.</h2>
+      <div class="out-r">
+        <ul class="chips">{leftOut.map((x) => <li><s>{x}</s></li>)}</ul>
+        <p class="body">What goes in instead: naturally derived cleaning agents, enzymes matched to the stain, and IFRA-certified fragrances, or none at all.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="three" aria-labelledby="three-h">
+    <div class="wrap">
+      <h2 class="h2" id="three-h">Three washes, one for each job.</h2>
+      <ul class="wash-list">
+        {washes.map((w) => (
+          <li>
+            <a class="wash" href={PRODUCTS[w.id].href}>
+              <div class="wash-tint">
+                <Picture class="bottle" src={BOTTLES[w.id]} alt={ALT.bottle[w.id]} formats={['avif', 'webp']} widths={[100, 200]} sizes="(min-width: 960px) 90px, 44px" style={`--hm:${w.hM}px;--hd:${w.hD}px`} />
+              </div>
+              <div class="wash-body">
+                <span class="wash-name">{PRODUCTS[w.id].name}</span>
+                <span class="wash-line">{w.line}</span>
+                <span class="wash-more">Learn more <Icon name="arrow-right" size={16} stroke={2} /></span>
+              </div>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <CtaBand heading="Be the first to try Twist." />
+</Base>
+
+<style>
+  /* Hero */
+  .w-hero .wrap { padding: 16px var(--gutter-tight) 48px; display: flex; flex-direction: column-reverse; gap: 18px; }
+  .w-copy { padding: 4px 4px 0; display: flex; flex-direction: column; gap: 12px; }
+  h1 { font-size: 34px; line-height: 1.1; }
+  .w-copy .body { font-size: 16px; }
+  .w-panel { position: relative; height: 250px; border-radius: 24px; background: var(--ink); overflow: hidden; }
+  .w-art { position: absolute; left: 50%; bottom: 0; width: 358px; height: 100%; transform: translateX(-50%); }
+  .w-art :global(.bottle) { position: absolute; bottom: 22px; width: auto; }
+  .w-art :global(.b-qw) { left: 58px; height: 160px; }
+  .w-art :global(.b-uw) { left: 238px; height: 128px; }
+  .w-art :global(.b-ew) { left: 140px; height: 200px; }
+  @media (min-width: 960px) {
+    .w-hero .wrap {
+      display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 48px; align-items: center;
+      padding: 56px var(--gutter) 100px;
+    }
+    .w-copy { grid-column: span 6; gap: 22px; padding: 0; }
+    h1 { font-size: clamp(44px, 4.44vw, 64px); line-height: 1.06; }
+    .w-copy .body { font-size: 19px; }
+    .w-panel { grid-column: 7 / span 6; height: auto; aspect-ratio: 632 / 520; border-radius: 32px; }
+    .w-art { left: 0; width: 100%; transform: none; }
+    .w-art :global(.bottle) { bottom: 8.46%; }
+    .w-art :global(.b-qw) { left: 17.41%; height: 63.46%; }
+    .w-art :global(.b-uw) { left: 74.37%; height: 50.96%; }
+    .w-art :global(.b-ew) { left: 44.3%; height: 80.77%; }
+  }
+
+  /* Myths */
+  .myths { padding-block: 56px; }
+  .myths .wrap { padding-inline: var(--gutter-tight); display: flex; flex-direction: column; gap: 14px; }
+  .myths .h2 { padding: 0 4px 8px; }
+  .myth-list { margin-block: 0; }
+  .myth-list > .myth { flex: 0 0 290px; }
+  .myth { border-radius: 20px; overflow: hidden; background: var(--surface); display: flex; flex-direction: column; }
+  .told { padding: 18px 18px 16px; display: flex; flex-direction: column; gap: 6px; }
+  .told-t {
+    font-family: var(--font-display); font-size: 19px; font-weight: 600; line-height: 1.25; color: var(--ink-muted);
+    text-decoration: line-through; text-decoration-thickness: 1.5px;
+  }
+  .truth { flex: 1; background: var(--ink); color: var(--on-ink); padding: 16px 18px 20px; display: flex; flex-direction: column; gap: 6px; }
+  .truth .label { color: var(--accent); }
+  .truth p { font-size: 15px; line-height: 1.5; }
+  .swipe { font-size: 13px; color: var(--ink-subtle); padding: 0 4px; display: flex; align-items: center; gap: 4px; }
+  @media (min-width: 960px) {
+    .myths { padding-block: 110px; }
+    .myths .wrap { gap: 40px; }
+    .myths .h2 { padding: 0; max-width: 900px; }
+    .myth-list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; overflow: visible; margin: 0; padding: 0; }
+    .myth-list > .myth { flex: none; }
+    .myth { border-radius: 24px; }
+    .told { padding: 26px 26px 22px; gap: 8px; flex-grow: 1; }
+    .told-t { font-size: 24px; text-decoration-thickness: 2px; }
+    .truth { flex: none; padding: 22px 26px 26px; gap: 8px; min-height: 150px; }
+    .truth p { font-size: 17px; }
+  }
+
+  /* How we make things */
+  .make { padding-block: 56px; }
+  .make .wrap { display: flex; flex-direction: column; gap: 8px; }
+  .make .h2 { margin-bottom: 8px; }
+  .principles li { display: flex; gap: 14px; padding: 18px 0; border-top: 1px solid color-mix(in srgb, var(--ink) 14%, transparent); }
+  .num {
+    flex-shrink: 0; width: 34px; height: 34px; border-radius: 50%; background: var(--ink); color: var(--on-ink);
+    font-family: var(--font-display); font-weight: 600; font-size: 15px; display: flex; align-items: center; justify-content: center;
+  }
+  .pr-text { display: flex; flex-direction: column; gap: 4px; padding-top: 3px; }
+  .pr-text h3 { font-family: var(--font-display); font-size: 20px; font-weight: 600; line-height: 1.2; }
+  .pr-text p { font-size: 15px; line-height: 1.5; color: var(--ink-muted); }
+  @media (min-width: 960px) {
+    .make { padding-block: 110px; }
+    .make .wrap { gap: 40px; }
+    .make .h2 { margin: 0; }
+    .principles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 40px; }
+    .principles li { flex-direction: column; gap: 12px; padding: 24px 0 0; border-top-color: color-mix(in srgb, var(--ink) 16%, transparent); }
+    .num { width: 40px; height: 40px; }
+    .pr-text { gap: 12px; padding: 0; }
+    .pr-text h3 { font-size: 25px; }
+    .pr-text p { font-size: 16px; line-height: 1.55; }
+  }
+
+  /* What we leave out */
+  .out { padding-block: 56px; }
+  .out .wrap, .out-r { display: flex; flex-direction: column; gap: 16px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chips li { display: inline-flex; align-items: center; min-height: 40px; padding: 0 16px; border-radius: 999px; background: var(--surface); font-weight: 600; font-size: 15px; }
+  .chips s { text-decoration-thickness: 1.5px; }
+  .out-r .body { font-size: 15px; }
+  @media (min-width: 960px) {
+    .out { padding-block: 110px; }
+    .out .wrap { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 48px; align-items: center; }
+    .out .h2 { grid-column: span 4; }
+    .out-r { grid-column: 6 / span 7; gap: 20px; }
+    .chips { gap: 12px; }
+    .chips li { min-height: 52px; padding: 0 24px; font-size: 19px; }
+    .chips s { text-decoration-thickness: 2px; }
+    .out-r .body { font-size: 18px; }
+  }
+
+  /* Three washes */
+  .three { padding-block: 56px; }
+  .three .wrap { padding-inline: var(--gutter-tight); display: flex; flex-direction: column; gap: 12px; }
+  .three .h2 { padding: 0 4px 8px; }
+  .wash-list { display: flex; flex-direction: column; gap: 12px; }
+  .wash {
+    text-decoration: none; background: var(--surface); border-radius: 20px; overflow: hidden;
+    display: grid; grid-template-columns: 110px minmax(0, 1fr); border: 1px solid color-mix(in srgb, var(--ink) 10%, transparent);
+  }
+  .wash-tint { background: var(--ink); height: 140px; display: flex; align-items: flex-end; justify-content: center; padding-bottom: 14px; }
+  .wash-tint :global(.bottle) { height: var(--hm); }
+  .wash-body { padding: 16px 18px; display: flex; flex-direction: column; gap: 4px; justify-content: center; }
+  .wash-name { font-family: var(--font-display); font-size: 21px; font-weight: 600; }
+  .wash-line { font-size: 14px; color: var(--ink-muted); line-height: 1.4; }
+  .wash-more { font-size: 15px; font-weight: 600; margin-top: 4px; display: inline-flex; align-items: center; gap: 6px; }
+  @media (min-width: 960px) {
+    .three { padding-block: 110px; }
+    .three .wrap { gap: 36px; }
+    .three .h2 { padding: 0; }
+    .wash-list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+    .wash { border-radius: 28px; display: flex; flex-direction: column; height: 100%; }
+    .wash-tint { height: 300px; padding-bottom: 32px; }
+    .wash-tint :global(.bottle) { height: var(--hd); }
+    .wash-body { padding: 26px 28px 30px; gap: 8px; justify-content: flex-start; }
+    .wash-name { font-size: clamp(24px, 2.08vw, 30px); }
+    .wash-line { font-size: 17px; line-height: normal; }
+    .wash-more { font-size: 16px; margin-top: 6px; }
+  }
+</style>

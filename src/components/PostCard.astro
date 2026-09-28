@@ -1,0 +1,24 @@
+---
+import { Picture } from 'astro:assets';
+import { postUrl, type Post } from '../data/blog';
+interface Props { post: Post }
+const { post } = Astro.props;
+---
+<a class="card" href={postUrl(post)}>
+  <Picture src={post.data.cover} alt={post.data.coverAlt} formats={['avif', 'webp']} widths={[360, 720]} sizes="(min-width: 960px) 24vw, 100vw" />
+  <span class="label">{post.data.category} · {post.data.readingTime}</span>
+  <span class="t">{post.data.title}</span>
+  <span class="s">{post.data.summary}</span>
+</a>
+
+<style>
+  .card { text-decoration: none; display: flex; flex-direction: column; gap: 10px; }
+  .card :global(img) { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 20px; }
+  .t { font-family: var(--font-display); font-size: 20px; font-weight: 600; line-height: 1.2; }
+  .s { font-size: 14px; line-height: 1.5; color: var(--ink-muted); }
+  @media (min-width: 960px) {
+    .card { gap: 12px; }
+    .t { font-size: 24px; }
+    .s { font-size: 16px; }
+  }
+</style>

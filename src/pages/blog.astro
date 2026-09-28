@@ -1,0 +1,81 @@
+---
+import { Picture } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import CtaBand from '../components/CtaBand.astro';
+import PostCard from '../components/PostCard.astro';
+import { getPosts, postUrl } from '../data/blog';
+
+const [latest, ...rest] = await getPosts();
+---
+<Base title="Notes on laundry · Twist blog" description="What's in your detergent, what it does to your clothes, and what the ads never told you.">
+  <section class="b-head" aria-labelledby="b-h1">
+    <div class="wrap">
+      <h1 id="b-h1">Notes on laundry.</h1>
+      <p class="body">What's in your detergent, what it does to your clothes, and what the ads never told you.</p>
+    </div>
+  </section>
+
+  {latest && (
+    <section class="featured" aria-label="Latest post">
+      <div class="wrap">
+        <a class="feat" href={postUrl(latest)}>
+          <Picture class="feat-img" src={latest.data.cover} alt={latest.data.coverAlt} formats={['avif', 'webp']} widths={[400, 800, 900]} sizes="(min-width: 960px) 55vw, 100vw" loading="eager" fetchpriority="high" />
+          <div class="feat-body">
+            <span class="label">Latest · {latest.data.category}</span>
+            <h2 class="feat-t">{latest.data.title}</h2>
+            <span class="feat-s">{latest.data.summary}</span>
+            <span class="feat-read">Read <Icon name="arrow-right" size={16} stroke={2} /></span>
+          </div>
+        </a>
+      </div>
+    </section>
+  )}
+
+  {rest.length > 0 && (
+    <section class="more band-alt" aria-labelledby="more-h">
+      <div class="wrap">
+        <h2 class="h2" id="more-h">More posts</h2>
+        <ul class="grid">{rest.map((p) => <li><PostCard post={p} /></li>)}</ul>
+      </div>
+    </section>
+  )}
+
+  <CtaBand heading="Be the first to try Twist." />
+</Base>
+
+<style>
+  .b-head .wrap { padding-top: 32px; padding-bottom: 12px; display: flex; flex-direction: column; gap: 12px; }
+  h1 { font-size: 40px; line-height: 1.05; }
+  .b-head .body { font-size: 16px; }
+  .featured .wrap { padding: 20px var(--gutter-tight) 48px; }
+  .feat { text-decoration: none; display: flex; flex-direction: column; border-radius: 22px; overflow: hidden; background: var(--ink); color: var(--on-ink); }
+  .feat :global(.feat-img) { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
+  .feat-body { padding: 20px 20px 24px; display: flex; flex-direction: column; gap: 8px; }
+  .feat-body .label { color: var(--accent); }
+  .feat-t { font-family: var(--font-display); font-size: 25px; font-weight: 600; line-height: 1.2; letter-spacing: normal; color: var(--on-ink); }
+  .feat-s { font-size: 15px; line-height: 1.5; opacity: .88; }
+  .feat-read { font-size: 15px; font-weight: 600; margin-top: 4px; display: inline-flex; align-items: center; gap: 6px; }
+  .feat:focus-visible { outline-color: var(--ink); }
+  .more { padding: 48px 0 56px; }
+  .more .wrap { display: flex; flex-direction: column; gap: 28px; }
+  .more .h2 { font-size: 28px; }
+  .grid { display: flex; flex-direction: column; gap: 32px; }
+  @media (min-width: 960px) {
+    .b-head .wrap { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 48px; align-items: end; padding-top: 64px; padding-bottom: 40px; }
+    h1 { grid-column: span 7; font-size: clamp(56px, 5.28vw, 76px); line-height: 1; }
+    .b-head .body { grid-column: 8 / span 5; font-size: 19px; }
+    .featured .wrap { padding: 20px var(--gutter) 100px; }
+    .feat { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); border-radius: 32px; }
+    .feat > :global(picture) { grid-column: span 7; }
+    .feat :global(.feat-img) { height: 460px; aspect-ratio: auto; }
+    .feat-body { grid-column: span 5; padding: 48px 44px; gap: 14px; justify-content: center; }
+    .feat-t { font-size: clamp(30px, 2.78vw, 40px); line-height: 1.12; }
+    .feat-s { font-size: 18px; line-height: 1.55; }
+    .feat-read { font-size: 17px; margin-top: 8px; }
+    .more { padding: 100px 0 110px; }
+    .more .wrap { gap: 36px; }
+    .more .h2 { font-size: clamp(40px, 3.61vw, 52px); }
+    .grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 28px; }
+  }
+</style>
