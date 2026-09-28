@@ -1,0 +1,277 @@
+---
+// Shared layout for the three product pages. The "why" section differs per product and comes in the default slot.
+import { Picture } from 'astro:assets';
+import Base from '../../layouts/Base.astro';
+import Icon from '../Icon.astro';
+import NotifyButton from '../NotifyButton.astro';
+import Faq from '../Faq.astro';
+import CtaBand from '../CtaBand.astro';
+import { ALT, LAUNCH, PRODUCTS, PRODUCT_ORDER } from '../../data/site';
+import { BOTTLES, OTHER_CARD, type ProductPageData } from '../../data/products';
+
+interface Props { data: ProductPageData }
+const { data } = Astro.props;
+const { id, hero, how } = data;
+const name = PRODUCTS[id].name;
+const others = PRODUCT_ORDER.filter((p) => p !== id);
+---
+<Base title={data.meta.title} description={data.meta.description} product={id}>
+  <!-- Hero -->
+  <section class="p-hero" aria-labelledby="p-h1">
+    <div class="wrap">
+      <div class="panel" style={`--wm-m:${hero.wmM.size}px;--wm-mt:${hero.wmM.top}px;--wm-d:${hero.wmD.size}px;--wm-dv:${(hero.wmD.size / 14.4).toFixed(3)}vw;--wm-dt:${hero.wmD.top}px;--b-m:${hero.bottleM}px;--b-d:${hero.bottleD}px`}>
+        {hero.brief && (
+          <svg class="brief" viewBox="0 0 200 110" fill="none" aria-hidden="true" stroke-linejoin="round" stroke-linecap="round">
+            <path d="M18 12 H182 L174 42 C150 50 126 74 116 104 H84 C74 74 50 50 26 42 Z" /><path d="M20 21 H180" /><path d="M86 94 H114" />
+          </svg>
+        )}
+        <div class="wordmark" aria-hidden="true">{hero.wordmark}</div>
+        <Picture class="bottle hero-bottle" src={BOTTLES[id]} alt={ALT.bottle[id]} formats={['avif', 'webp']} widths={[160, 320, BOTTLES[id].width]} sizes="(min-width: 960px) 140px, 80px" loading="eager" fetchpriority="high" />
+        {hero.callouts.map((c) => (
+          <div class:list={['co', 'd-only', c.side]} style={`top:${c.top}px`} aria-hidden="true">
+            {c.side === 'r' && <i></i>}{c.text}{c.side === 'l' && <i></i>}
+          </div>
+        ))}
+      </div>
+      <div class="p-intro">
+        <div class="p-copy">
+          <h1 id="p-h1">{hero.h1}</h1>
+          <p class="body">{hero.body}</p>
+          <ul class="ticks m-only">
+            {hero.ticks.map((t) => <li><Icon name="tick" size={18} stroke={2.2} /><span>{t}</span></li>)}
+          </ul>
+        </div>
+        <div class="p-cta">
+          <NotifyButton product={id} icon label="Notify me when it's ready" class="btn p-btn" />
+          <span class="launch">Launching {LAUNCH}</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <slot />
+
+  <!-- How it works -->
+  <section class="how" aria-labelledby="how-h">
+    <div class="wrap">
+      <div class="how-head">
+        <h2 class="h2" id="how-h">How {name} works.</h2>
+        <div class="how-side">
+          <p class="body">{how.body}</p>
+          <p class="tech"><span class="tech-name">[Name]™ technology</span><span class="tech-note">Three things happen in every wash.</span></p>
+        </div>
+      </div>
+      <div data-carousel>
+        <div class="car how-cards" role="region" aria-label={`How ${name} works`} tabindex="0">
+          {how.cards.map((c, i) => (
+            <article class="mcard">
+              <Picture src={c.img} alt="" formats={['avif', 'webp']} widths={[300, 600, 800]} sizes="(min-width: 960px) 30vw, 292px" />
+              <div class="mtext">
+                <span class="label">0{i + 1}</span>
+                <h3>{c.title}</h3>
+                <p>{c.body}</p>
+              </div>
+            </article>
+          ))}
+        </div>
+        <div class="dots m-only">
+          {how.cards.map((c, i) => (
+            <button type="button" class="dot" aria-label={`Show step ${i + 1} of ${how.cards.length}: ${c.title}`} aria-current={i === 0 ? 'true' : 'false'}></button>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- What else you get -->
+  <section class="else band-alt" aria-labelledby="else-h">
+    <div class="wrap">
+      <h2 class="h2" id="else-h">What else you get.</h2>
+      <ul class="extras">
+        {data.extras.map((x) => (
+          <li class="extra">
+            <span class="ic"><Icon name={x.icon} size={24} stroke={1.7} /></span>
+            <h3>{x.title}</h3>
+            <p>{x.body}</p>
+          </li>
+        ))}
+      </ul>
+      <div class="bottle-list">
+        <h3 class="label">In the bottle</h3>
+        <ul>
+          {data.inBottle.map((b) => <li><span class="ic"><Icon name={b.icon} size={20} stroke={1.7} /></span><span>{b.text}</span></li>)}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <Faq id={`${id}-faq`} items={data.faqs} />
+
+  <!-- The other two -->
+  <section class="others band-alt" aria-labelledby="others-h">
+    <div class="wrap">
+      <h2 class="h2" id="others-h">The other two.</h2>
+      <div class="other-grid">
+        {others.map((o) => (
+          <article class="other">
+            <div class="ptint">
+              <Picture class="bottle" src={BOTTLES[o]} alt={ALT.bottle[o]} formats={['avif', 'webp']} widths={[100, 200]} sizes="(min-width: 960px) 82px, 44px" style={`--hm:${OTHER_CARD[o].hM}px;--hd:${OTHER_CARD[o].hD}px`} />
+            </div>
+            <div class="other-body">
+              <span class="label">{OTHER_CARD[o].label}</span>
+              <h3>{PRODUCTS[o].name}</h3>
+              <p>{OTHER_CARD[o].line}</p>
+              <a class="tlink" href={PRODUCTS[o].href}>Learn more<span class="sr-only"> about {PRODUCTS[o].name}</span></a>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CtaBand heading={`Be the first to try ${name}.`} product={id} />
+</Base>
+
+<style>
+  /* Hero */
+  .p-hero .wrap { padding: 12px var(--gutter-tight) 48px; display: flex; flex-direction: column; gap: 18px; }
+  .panel { position: relative; height: 320px; border-radius: 24px; background: var(--ink); overflow: hidden; }
+  .wordmark {
+    position: absolute; left: 0; right: 0; top: var(--wm-mt); text-align: center;
+    font-family: var(--font-body); font-weight: 200; letter-spacing: -0.04em; line-height: .8;
+    font-size: var(--wm-m); color: var(--surface-alt); white-space: nowrap;
+  }
+  .brief { position: absolute; left: 50%; transform: translateX(-50%); top: 18px; width: 96px; height: auto; stroke: var(--surface-alt); stroke-width: 3.2; }
+  .panel :global(.hero-bottle) { position: absolute; left: 50%; transform: translateX(-50%); bottom: 22px; height: var(--b-m); width: auto; }
+  .p-intro { padding: 4px 4px 0; display: flex; flex-direction: column; gap: 12px; }
+  .p-copy { display: flex; flex-direction: column; gap: 12px; }
+  h1 { font-size: 34px; line-height: 1.08; }
+  .p-copy .body { font-size: 16px; }
+  .ticks { display: flex; flex-direction: column; gap: 7px; padding-top: 2px; }
+  .ticks li { display: flex; gap: 10px; align-items: flex-start; font-size: 15px; }
+  .ticks :global(svg) { flex-shrink: 0; margin-top: 3px; }
+  .p-cta { display: flex; flex-direction: column; gap: 12px; }
+  .p-cta :global(.p-btn) { margin-top: 8px; }
+  .launch { font-size: 13px; color: var(--ink-subtle); text-align: center; }
+
+  @media (min-width: 960px) {
+    .p-hero .wrap { padding: 8px var(--gutter) 96px; gap: 36px; }
+    .panel { height: 560px; border-radius: 32px; }
+    .wordmark { top: var(--wm-dt); font-size: min(var(--wm-d), var(--wm-dv)); }
+    .brief { top: 34px; width: 170px; stroke-width: 2.6; }
+    .panel :global(.hero-bottle) { bottom: 36px; height: var(--b-d); }
+    .co {
+      position: absolute; display: flex; align-items: center; gap: 14px;
+      font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--on-ink); white-space: nowrap;
+    }
+    .co.l { right: calc(50% + 176px); }
+    .co.r { left: calc(50% + 176px); }
+    .co i { display: block; width: 90px; height: 1px; background: color-mix(in srgb, var(--on-ink) 60%, transparent); }
+    .p-intro { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 32px; align-items: end; padding: 0; }
+    .p-copy { grid-column: span 8; gap: 14px; }
+    h1 { font-size: clamp(44px, 4.17vw, 60px); line-height: 1.04; }
+    .p-copy .body { font-size: 19px; max-width: 700px; }
+    .p-cta { grid-column: 9 / span 4; gap: 10px; align-items: flex-end; }
+    .p-cta :global(.p-btn) { margin-top: 0; min-height: 58px; padding: 0 32px; font-size: 17px; }
+    .launch { font-size: 14px; }
+  }
+  @media (min-width: 960px) and (max-width: 1279.98px) {
+    .co { display: none; } /* not enough room beside the bottle */
+  }
+
+  /* How it works */
+  .how { padding-block: 56px; }
+  .how .wrap { padding-inline: var(--gutter-tight); display: flex; flex-direction: column; gap: 16px; }
+  .how-head { padding: 0 4px; display: flex; flex-direction: column; gap: 14px; }
+  .how-side { display: flex; flex-direction: column; gap: 14px; }
+  .how-side .body { font-size: 16px; }
+  .tech { display: flex; flex-wrap: wrap; align-items: baseline; column-gap: 12px; row-gap: 2px; }
+  .tech-name {
+    font-family: var(--font-display); font-weight: 600; font-size: 17px; color: var(--ink);
+    padding-bottom: 2px; background: linear-gradient(var(--accent), var(--accent)) left bottom / 100% 3px no-repeat;
+  }
+  .tech-note { font-size: 14px; color: var(--ink-muted); }
+  .how-cards { align-items: stretch; }
+  .mcard { background: var(--mcard); border-radius: 22px; border: 1px solid color-mix(in srgb, var(--ink) 10%, transparent); overflow: hidden; display: flex; flex-direction: column; }
+  .mcard :global(img) { width: 100%; height: 200px; object-fit: cover; }
+  .mtext { padding: 4px 20px 22px; display: flex; flex-direction: column; gap: 6px; }
+  .mtext h3 { font-family: var(--font-display); font-size: 21px; font-weight: 600; line-height: 1.2; }
+  .mtext p { font-size: 15px; line-height: 1.5; color: var(--ink-muted); }
+
+  @media (min-width: 960px) {
+    .how { padding-block: 110px; }
+    .how .wrap { gap: 40px; }
+    .how-head { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 48px; align-items: end; padding: 0; }
+    .how-head .h2 { grid-column: span 5; }
+    .how-side { grid-column: 7 / span 6; gap: 16px; }
+    .how-side .body { font-size: 19px; }
+    .tech-note { font-size: 15px; }
+    .how-cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; overflow: visible; margin: 0; padding: 0; }
+    .how-cards > * { flex: none; }
+    .mcard :global(img) { height: 320px; }
+    .mtext { padding: 6px 28px 30px; gap: 8px; }
+    .mtext h3 { font-size: 25px; }
+    .mtext p { font-size: 16px; line-height: 1.55; }
+  }
+
+  /* What else you get */
+  .else { padding-block: 56px; }
+  .else .wrap { padding-inline: var(--gutter-tight); display: flex; flex-direction: column; gap: 16px; }
+  .else .h2 { padding: 0 4px; }
+  .extras { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .extra { background: var(--surface); border-radius: 18px; padding: 18px 16px; display: flex; flex-direction: column; gap: 8px; }
+  .extra h3 { font-family: var(--font-display); font-size: 17px; font-weight: 600; line-height: 1.2; }
+  .extra p { font-size: 13px; line-height: 1.45; color: var(--ink-muted); }
+  .bottle-list { padding: 10px 4px 0; }
+  .bottle-list .label { color: var(--ink); }
+  .bottle-list ul { margin-top: 8px; }
+  .bottle-list li { display: flex; gap: 12px; align-items: flex-start; padding: 12px 0; border-top: 1px solid color-mix(in srgb, var(--ink) 14%, transparent); font-size: 15px; line-height: 1.45; }
+  .ic { flex-shrink: 0; }
+  .ic :global(svg) { display: inline-block; vertical-align: baseline; }
+  .bottle-list .ic { padding-top: 1px; }
+
+  @media (min-width: 960px) {
+    .else { padding-block: 110px; }
+    .else .wrap { gap: 36px; }
+    .else .h2 { padding: 0; }
+    .extras { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px; }
+    .extra { border-radius: 22px; padding: 28px 26px; gap: 12px; }
+    .extra h3 { font-size: 22px; }
+    .extra p { font-size: 15px; line-height: 1.5; }
+    .bottle-list {
+      display: grid; grid-template-columns: 180px repeat(3, minmax(0, 1fr)); gap: 32px; align-items: start;
+      padding: 28px 0 0; border-top: 1px solid color-mix(in srgb, var(--ink) 16%, transparent);
+    }
+    .bottle-list .label { padding-top: 4px; }
+    .bottle-list ul { display: contents; }
+    .bottle-list li { border-top: 0; padding: 0; font-size: 16px; }
+    .bottle-list .ic { padding-top: 2px; }
+  }
+
+  /* The other two */
+  .others { padding-block: 56px; }
+  .others .wrap { padding-inline: var(--gutter-tight); display: flex; flex-direction: column; gap: 14px; }
+  .others .h2 { padding: 0 4px 6px; }
+  .other-grid { display: flex; flex-direction: column; gap: 14px; }
+  .other { background: var(--surface); border-radius: 20px; overflow: hidden; display: grid; grid-template-columns: 116px minmax(0, 1fr); border: 1px solid color-mix(in srgb, var(--ink) 10%, transparent); }
+  .other .ptint { height: 150px; padding-bottom: 16px; }
+  .other .ptint :global(.bottle) { height: var(--hm); }
+  .other-body { padding: 16px 18px; display: flex; flex-direction: column; gap: 4px; justify-content: center; }
+  .other-body h3 { font-family: var(--font-display); font-size: 22px; font-weight: 600; line-height: 1.15; }
+  .other-body p { font-size: 14px; color: var(--ink-muted); }
+  .other-body .tlink { align-self: flex-start; font-size: 15px; }
+
+  @media (min-width: 960px) {
+    .others { padding-block: 110px; }
+    .others .wrap { gap: 36px; }
+    .others .h2 { padding: 0; }
+    .other-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+    .other { border-radius: 28px; grid-template-columns: clamp(160px, 16.7vw, 240px) minmax(0, 1fr); }
+    .other .ptint { height: 280px; padding-bottom: 28px; }
+    .other .ptint :global(.bottle) { height: var(--hd); }
+    .other-body { padding: 36px 34px; gap: 12px; }
+    .other-body h3 { font-size: clamp(26px, 2.36vw, 34px); }
+    .other-body p { font-size: 17px; }
+    .other-body .tlink { font-size: 16px; }
+  }
+</style>

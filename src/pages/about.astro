@@ -1,0 +1,70 @@
+---
+import Base from '../layouts/Base.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { CONTACT_EMAIL, COMPANY } from '../data/site';
+---
+<Base title="About Twist: two people who wanted to know what's in the bottle" description="Murali and Farzyn, Hyderabad. Why we started Twist and how to reach us.">
+  <section class="a-hero" aria-labelledby="a-h1">
+    <div class="wrap">
+      <div class="ph photo">Candid photo of Murali and Farzyn, daylight</div>
+      <div class="a-title">
+        <span class="label">Murali &amp; Farzyn · Hyderabad</span>
+        <h1 id="a-h1">Two people who wanted to know what's in the bottle.</h1>
+      </div>
+    </div>
+  </section>
+
+  <section class="split band-alt" aria-labelledby="story-h">
+    <div class="wrap">
+      <h2 class="h2" id="story-h">Why we started Twist.</h2>
+      <div class="split-r story">
+        <p class="body">[Paragraph 1: the moment you noticed the problem. For example, the shirt, the stain or the label that started it.]</p>
+        <p class="body">[Paragraph 2: what you found when you looked into how detergents are made and sold.]</p>
+        <p class="body">[Paragraph 3: what you decided to do about it, and what you won't compromise on.]</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="split hello" aria-labelledby="hello-h">
+    <div class="wrap">
+      <h2 class="h2" id="hello-h">Say hello.</h2>
+      <div class="split-r">
+        <p class="body">We read every message. Write to us at <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>.</p>
+        <p class="addr"><span>{COMPANY}</span><span class="sep"> · </span><span>[Registered address], Hyderabad</span></p>
+      </div>
+    </div>
+  </section>
+
+  <CtaBand heading="Be the first to try Twist." />
+</Base>
+
+<style>
+  .a-hero .wrap { padding: 20px var(--gutter-tight) 48px; display: flex; flex-direction: column; gap: 18px; }
+  .photo { height: 260px; }
+  .a-title { padding: 4px 4px 0; display: flex; flex-direction: column; gap: 10px; }
+  h1 { font-size: 34px; line-height: 1.1; }
+  .split { padding-block: 56px; }
+  .split .wrap { display: flex; flex-direction: column; gap: 14px; }
+  .split .h2 { font-size: 30px; }
+  .split-r { display: flex; flex-direction: column; gap: 14px; }
+  .split .body { font-size: 16px; }
+  .body a { color: var(--ink); text-underline-offset: 3px; word-break: break-word; }
+  .addr { font-size: 14px; color: var(--ink-muted); margin-top: 6px; display: flex; flex-direction: column; }
+  .addr .sep { display: none; }
+  @media (min-width: 960px) {
+    .a-hero .wrap { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 48px; align-items: center; padding: 56px var(--gutter) 100px; }
+    .photo { grid-column: span 6; height: 480px; }
+    .a-title { grid-column: 8 / span 5; gap: 16px; padding: 0; }
+    h1 { font-size: clamp(40px, 3.89vw, 56px); line-height: 1.08; }
+    .split { padding-block: 110px; }
+    .hello { padding-block: 100px; }
+    .split .wrap { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 48px; }
+    .split .h2 { grid-column: span 4; font-size: clamp(40px, 3.61vw, 52px); }
+    .split-r { grid-column: 6 / span 7; }
+    .story { gap: 18px; }
+    .hello .split-r { gap: 12px; }
+    .split .body { font-size: 18px; }
+    .addr { font-size: 15px; margin: 0; display: block; }
+    .addr .sep { display: inline; }
+  }
+</style>

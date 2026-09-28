@@ -1,0 +1,99 @@
+---
+import { Picture } from 'astro:assets';
+import gusset from '../../assets/undergarment-gusset.webp';
+
+const cols = ['Protein', 'Oil & fat', 'Salts & urea'];
+const rows: { stain: string; note?: string; has: [boolean, boolean, boolean] }[] = [
+  { stain: 'Discharge', has: [true, false, false] },
+  { stain: 'Period blood', note: 'Also iron', has: [true, false, false] },
+  { stain: 'Sweat', has: [true, false, true] },
+  { stain: 'Body oil', has: [false, true, false] },
+  { stain: 'Urine', has: [false, false, true] },
+  { stain: 'Faecal traces', note: 'Also fibre', has: [true, true, false] },
+];
+---
+<section class="why band-alt" aria-labelledby="why-h">
+  <div class="wrap">
+    <div class="why-head">
+      <div class="why-l">
+        <h2 class="h2" id="why-h">Why bar soap isn't enough.</h2>
+        <p class="hook">It looks clean when you hang it up. The next morning, the mark is still there.</p>
+      </div>
+      <div class="why-r">
+        <p class="body">Most intimate stains are proteins or body oil. Proteins need enzymes to break down, and bar soap has none, so it relies on scrubbing, which roughs up delicate fabric without lifting the stain. Hot water isn't the answer either, because heat sets protein stains into the fibre.</p>
+      </div>
+    </div>
+    <div class="split">
+      <Picture class="gusset" pictureAttributes={{ class: 'gusset-pic' }} src={gusset} alt="The gusset of white cotton briefs with a faint mark left after washing" formats={['avif', 'webp']} widths={[400, 700, 900]} sizes="(min-width: 960px) 38vw, 100vw" />
+      <div class="chem">
+        <h3 class="label chem-label">What the six stains are made of</h3>
+        <div class="card">
+          <p class="intro">Six stains, three kinds of chemistry. Undergarment Wash is made to lift all of them in cold water.</p>
+          <table>
+            <caption class="sr-only">What each intimate stain is made of</caption>
+            <thead>
+              <tr><td></td>{cols.map((c) => <th scope="col">{c}</th>)}</tr>
+            </thead>
+            <tbody>
+              {rows.map((r) => (
+                <tr>
+                  <th scope="row">{r.stain}{r.note && <span class="note">{r.note}</span>}</th>
+                  {r.has.map((on) => (
+                    <td><span class:list={['mark', { on }]} aria-hidden="true"></span><span class="sr-only">{on ? 'Yes' : 'No'}</span></td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .why { padding-block: 56px; }
+  .wrap { display: flex; flex-direction: column; gap: 16px; }
+  .why-head, .why-l, .why-r { display: flex; flex-direction: column; gap: 16px; }
+  .hook { font-size: 20px; }
+  .body { font-size: 15px; }
+  .split, .chem { display: flex; flex-direction: column; gap: 16px; }
+  .split :global(.gusset) { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 18px; margin-top: 6px; }
+  .chem-label { color: var(--ink); padding-top: 14px; }
+  .chem { gap: 16px; }
+  .card { background: var(--surface); border-radius: 20px; padding: 20px 14px 16px 16px; display: flex; flex-direction: column; gap: 16px; }
+  .intro { font-family: var(--font-display); font-weight: 600; font-size: 20px; line-height: 1.2; }
+  table { width: 100%; border-collapse: separate; border-spacing: 4px 0; margin-inline: -4px; width: calc(100% + 8px); table-layout: fixed; }
+  thead th {
+    width: 66px; padding: 12px 4px 8px; vertical-align: bottom; text-align: center;
+    font-size: 11px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; line-height: 1.2; color: var(--ink-muted);
+  }
+  thead td { width: auto; }
+  tbody th, tbody td { border-top: 1px solid color-mix(in srgb, var(--ink) 14%, transparent); height: 56px; }
+  tbody th { text-align: left; font-family: var(--font-display); font-size: 15px; font-weight: 600; line-height: 1.15; padding: 4px 8px 4px 0; }
+  .note { display: block; font-family: var(--font-body); font-size: 12px; font-weight: 500; color: var(--ink-muted); margin-top: 2px; }
+  tbody td { text-align: center; padding: 0 2px; }
+  .mark { display: inline-block; vertical-align: middle; width: 12px; height: 12px; border-radius: 50%; border: 1.5px solid color-mix(in srgb, var(--ink) 22%, transparent); }
+  .mark.on { width: 16px; height: 16px; border: 0; background: var(--ink); }
+  @media (min-width: 960px) {
+    .why { padding-block: 110px; }
+    .wrap { gap: 40px; }
+    .why-head { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 48px; align-items: start; }
+    .why-l { grid-column: span 6; gap: 18px; }
+    .why-r { grid-column: 8 / span 5; gap: 14px; padding-top: 8px; }
+    .hook { font-size: clamp(22px, 1.8vw, 26px); }
+    .body { font-size: 18px; }
+    .split { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 40px; align-items: start; }
+    .split :global(.gusset-pic) { grid-column: span 5; }
+    .split :global(.gusset) { border-radius: 24px; margin: 0; }
+    .chem { grid-column: 7 / span 6; }
+    .chem-label { padding: 0; }
+    .card { border-radius: 24px; padding: 28px 28px 24px; gap: 20px; }
+    .intro { font-size: clamp(24px, 2.08vw, 30px); }
+    table { border-spacing: 8px 0; margin-inline: -8px; width: calc(100% + 16px); }
+    thead th { width: clamp(80px, 8.33vw, 120px); font-size: 12px; }
+    tbody th, tbody td { height: 66px; }
+    tbody th { font-size: 19px; }
+    .note { font-size: 14px; }
+  }
+</style>

@@ -1,0 +1,78 @@
+---
+import { Picture } from 'astro:assets';
+import Base from '../../layouts/Base.astro';
+import Icon from '../../components/Icon.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import PostCard from '../../components/PostCard.astro';
+import { formatDate, getPosts, withDiagramBoxes, type Post } from '../../data/blog';
+
+export async function getStaticPaths() {
+  const posts = await getPosts();
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
+}
+
+const { post } = Astro.props as { post: Post };
+const others = (await getPosts()).filter((p) => p.id !== post.id).slice(0, 3);
+const html = withDiagramBoxes(post.rendered?.html ?? '');
+---
+<Base title={`${post.data.title} · Twist`} description={post.data.summary} ogType="article">
+  <article class="post">
+    <header class="wrap post-head">
+      <a class="back" href="/blog"><Icon name="arrow-left" size={16} stroke={2} />All posts</a>
+      <p class="label meta">{post.data.category} · <time datetime={post.data.date.toISOString().slice(0, 10)}>{formatDate(post.data.date)}</time> · {post.data.readingTime}</p>
+      <h1>{post.data.title}</h1>
+    </header>
+    <div class="wrap cover-wrap">
+      <Picture class="cover" src={post.data.cover} alt={post.data.coverAlt} formats={['avif', 'webp']} widths={[400, 800, 900]} sizes="(min-width: 960px) 900px, 100vw" loading="eager" fetchpriority="high" />
+    </div>
+    <div class="wrap">
+      <div class="prose" set:html={html} />
+    </div>
+  </article>
+
+  {others.length > 0 && (
+    <section class="more band-alt" aria-labelledby="more-h">
+      <div class="wrap">
+        <h2 class="h2" id="more-h">More from the blog</h2>
+        <ul class="grid">{others.map((p) => <li><PostCard post={p} /></li>)}</ul>
+      </div>
+    </section>
+  )}
+
+  <CtaBand heading="Be the first to try Twist." />
+</Base>
+
+<style>
+  .post { padding-bottom: 56px; }
+  .post-head { max-width: calc(680px + 2 * var(--gutter)); padding-top: 16px; display: flex; flex-direction: column; gap: 12px; }
+  .back { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; align-self: flex-start; font-weight: 500; font-size: 15px; text-decoration: none; }
+  .meta { color: var(--ink-muted); }
+  h1 { font-size: 34px; line-height: 1.1; }
+  .cover-wrap { max-width: calc(900px + 2 * var(--gutter)); padding-block: 24px 8px; }
+  .cover-wrap :global(.cover) { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; border-radius: 20px; }
+  .prose { max-width: 680px; margin-inline: auto; font-size: 17px; line-height: 1.7; color: var(--ink); }
+  .prose :global(p), .prose :global(ul), .prose :global(figure) { margin-top: 1.1em; }
+  .prose :global(h2) { font-size: 26px; line-height: 1.2; margin-top: 1.7em; }
+  .prose :global(ul) { list-style: disc; padding-left: 1.3em; }
+  .prose :global(li + li) { margin-top: .35em; }
+  .prose :global(.diagram-ph) {
+    margin-inline: 0; padding: 28px 20px; border: 1.5px dashed color-mix(in srgb, var(--ink) 35%, transparent); border-radius: 18px;
+    text-align: center; font-size: 15px; line-height: 1.5; color: var(--ink-muted);
+  }
+  .prose :global(.diagram-ph span) { display: block; font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; margin-bottom: 4px; }
+  .more { padding-block: 56px; }
+  .more .wrap { display: flex; flex-direction: column; gap: 28px; }
+  .grid { display: flex; flex-direction: column; gap: 32px; }
+  @media (min-width: 960px) {
+    .post { padding-bottom: 110px; }
+    .post-head { padding-top: 40px; gap: 16px; }
+    h1 { font-size: clamp(40px, 3.61vw, 52px); line-height: 1.08; }
+    .cover-wrap { padding-block: 40px 16px; }
+    .cover-wrap :global(.cover) { border-radius: 28px; }
+    .prose { font-size: 18px; }
+    .prose :global(h2) { font-size: 30px; }
+    .more { padding-block: 100px 110px; }
+    .more .wrap { gap: 36px; }
+    .grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; }
+  }
+</style>

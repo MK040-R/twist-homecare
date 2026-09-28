@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://twist-homecare.example/sitemap-index.xml

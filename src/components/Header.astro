@@ -1,0 +1,53 @@
+---
+import { NAV, cleanPath } from '../data/site';
+
+const path = cleanPath(Astro.url.pathname);
+const isCurrent = (href: string) => path === href || path.startsWith(href + '/');
+---
+<header class="site-header">
+  <div class="inner">
+    <a class="wm" href="/" aria-label="Twist, home">twist</a>
+    <nav aria-label="Main">
+      <ul>
+        {NAV.map((item) => (
+          <li>
+            <a href={item.href} aria-current={isCurrent(item.href) ? 'page' : undefined}>{item.label}</a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .inner {
+    display: flex; align-items: center; justify-content: space-between; gap: 8px;
+    min-height: 62px; padding: 0 10px 0 20px;
+    max-width: calc(var(--max) + 2 * var(--gutter)); margin-inline: auto;
+  }
+  .wm {
+    font-family: var(--font-display); font-weight: 700; font-size: 28px; letter-spacing: -0.03em;
+    text-decoration: none; line-height: 1; flex-shrink: 0;
+    display: inline-flex; align-items: center; min-height: 44px;
+  }
+  nav { min-width: 0; overflow-x: auto; scrollbar-width: none; }
+  nav::-webkit-scrollbar { display: none; }
+  ul { display: flex; gap: 2px; }
+  nav a {
+    display: flex; align-items: center; min-height: 44px; padding: 0 8px;
+    font-size: 15px; font-weight: 500; text-decoration: none; white-space: nowrap;
+  }
+  nav a[aria-current='page'] {
+    font-weight: 600; text-decoration: underline; text-underline-offset: 6px; text-decoration-thickness: 2px;
+  }
+  @media (min-width: 960px) {
+    .site-header { border-bottom: 0; }
+    .inner { min-height: 84px; padding-inline: var(--gutter); }
+    .wm { font-size: 32px; }
+    ul { gap: 40px; }
+    nav a { font-size: 16px; font-weight: 400; padding: 0; }
+  }
+</style>

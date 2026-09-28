@@ -1,0 +1,22 @@
+---
+import NotifyButton from './NotifyButton.astro';
+import type { PopupProduct } from '../data/site';
+
+interface Props { heading: string; product?: PopupProduct }
+const { heading, product } = Astro.props;
+---
+<section class="cta band-ink" aria-label="Get notified">
+  <div class="wrap inner">
+    <h2 class="h2">{heading}</h2>
+    <NotifyButton product={product} icon class="btn btn-inv" />
+  </div>
+</section>
+
+<style>
+  .inner { display: flex; flex-direction: column; gap: 18px; padding-block: 56px; }
+  .h2 { color: var(--on-ink); }
+  @media (min-width: 960px) {
+    .inner { flex-direction: row; justify-content: space-between; align-items: center; gap: 48px; padding-block: 96px; }
+    .inner :global(.btn) { min-height: 58px; padding: 0 32px; font-size: 17px; flex-shrink: 0; }
+  }
+</style>
