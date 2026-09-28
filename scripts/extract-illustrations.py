@@ -35,13 +35,28 @@ desktop[1] = (desktop[1]
 desktop[3] = re.sub(r'<rect x="220" y="156"[^>]*></rect>', '', desktop[3])
 desktop[3] = re.sub(r'<text[^>]*>← WHERE WE TEST: 200 TO 300</text>', '', desktop[3])
 
+# No uppercase anywhere on the site: illustration labels in sentence case.
+CONTINUATIONS = {"SCALE": "scale", "NOT TO SCALE": "not to scale", "MG/L": "mg/L"}
+
+def sentence(text):
+    if text in CONTINUATIONS:
+        return CONTINUATIONS[text]
+    t = text.lower()
+    t = re.sub(r"\bbis\b", "BIS", t).replace("mg/l", "mg/L")
+    t = re.sub(r"\bok\b", "OK", t)
+    return t[0].upper() + t[1:] if t[:1].isalpha() else t
+
+def sentence_case_svg(svg):
+    return re.sub(r"(<text[^>]*>)([^<]+)(</text>)", lambda m: m.group(1) + sentence(m.group(2)) + m.group(3), svg)
+
 for d in (mobile, desktop):
     for k, v in d.items():
+        v = sentence_case_svg(v)
         v = v.replace(' font-family="sans-serif"', '')
         v = re.sub(r'<svg ', '<svg focusable="false" ', v, count=1)
         d[k] = v
 
-checks = [('LIQUID 9+' in mobile[1]), ('LAUNDRY LIQUID · 9+' in desktop[1]), ('WHERE WE TEST' not in desktop[3]), ('x1="450"' not in desktop[1])]
+checks = [('Liquid 9+' in mobile[1]), ('Laundry liquid · 9+' in desktop[1]), ('WHERE WE TEST' not in desktop[3]), ('x1="450"' not in desktop[1])]
 assert all(checks), checks
 
 out = ROOT / "src" / "data" / "illustrations.ts"

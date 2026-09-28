@@ -70,6 +70,7 @@ These come from the copy review. You didn't answer them, so the site uses my def
 | k | Undergarment Wash is the only product page without "How much will it cost?". Its FAQ "Can I use it in the washing machine?" doesn't say yes or no. | As written. |
 | l | The blog post's cover image is the same tap photo used on the Everyday Wash page. | As written. |
 | m | Why Twist, myth 2 calls optical brighteners "dyes" (technically they are fluorescent whitening agents). | As written. |
+| n | Everyday Wash card says "All fabric types", but its formula includes protease, which breaks down protein fibres such as wool and silk. Enzyme detergents usually say "not for wool or silk". | "All fabric types", at your request. Confirm with the formulator before ads run. |
 
 ## 6. Things to know before launch (not copy)
 
