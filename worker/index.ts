@@ -88,10 +88,14 @@ async function rpc(env: Env, fn: string, args: Record<string, unknown>): Promise
 async function handleSignup(req: Request, env: Env): Promise<Response> {
   if (req.method !== 'POST') return json(405, { error: 'method_not_allowed' });
 
-  // Only accept posts from our own pages.
+  // Only accept posts from our own pages. Locally, `npm run dev` serves pages on another port.
   const origin = req.headers.get('origin');
   const url = new URL(req.url);
-  if (origin && new URL(origin).host !== url.host) return json(403, { error: 'forbidden' });
+  const isLocal = (h: string) => h === 'localhost' || h === '127.0.0.1';
+  if (origin) {
+    const o = new URL(origin);
+    if (o.host !== url.host && !(isLocal(o.hostname) && isLocal(url.hostname))) return json(403, { error: 'forbidden' });
+  }
 
   if (!env.SUPABASE_URL || !env.SUPABASE_SERVICE_ROLE_KEY || !env.SIGNING_SECRET) {
     console.error('Signup endpoint is missing SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY or SIGNING_SECRET');

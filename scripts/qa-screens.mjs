@@ -73,7 +73,12 @@ for (const page of pages) {
     await tab.evaluate(async () => {
       // Scroll through the page so lazy images load, then return to the top.
       for (let y = 0; y < document.body.scrollHeight; y += 400) { window.scrollTo(0, y); await new Promise((r) => setTimeout(r, 80)); }
-      await Promise.all([...document.images].map((img) => img.complete ? null : new Promise((r) => { img.onload = img.onerror = r; })));
+      // Wait for visible images only (hidden mobile/desktop variants never load), at most 5 s.
+      const visible = [...document.images].filter((img) => img.offsetParent !== null && !img.complete);
+      await Promise.race([
+        Promise.all(visible.map((img) => new Promise((r) => { img.onload = img.onerror = r; }))),
+        new Promise((r) => setTimeout(r, 5000)),
+      ]);
       window.scrollTo(0, 0);
       await document.fonts.ready;
     });

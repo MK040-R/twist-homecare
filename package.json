@@ -4,13 +4,15 @@
   "type": "module",
   "scripts": {
     "predev": "node scripts/ensure-dist.mjs",
-    "dev": "concurrently -k -n site,api -c blue,magenta \"astro dev\" \"wrangler dev --port 8787\"",
+    "dev": "concurrently -k -n site,api -c blue,magenta \"astro dev --ignore-lock\" \"wrangler dev --port 8787\"",
     "build": "astro build",
     "preview": "astro build && wrangler dev --port 8787",
     "deploy": "astro build && wrangler deploy",
     "fonts": "python3 scripts/subset-fonts.py",
     "qa:screens": "node scripts/qa-screens.mjs",
-    "assets:brand": "python3 scripts/make-icons.py && node scripts/make-brand-images.mjs"
+    "assets:brand": "python3 scripts/make-icons.py && node scripts/make-brand-images.mjs",
+    "test:signup": "node scripts/test-signup.mjs",
+    "test:ui": "node scripts/test-interactions.mjs"
   },
   "dependencies": {
     "astro": "7.3.5",

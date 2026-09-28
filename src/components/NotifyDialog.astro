@@ -68,7 +68,7 @@ const names = Object.fromEntries(PRODUCT_ORDER.map((id) => [id, PRODUCTS[id].nam
           ))}
         </div>
       </fieldset>
-      <button type="button" class="skip" data-skip>{POPUP.skip}</button>
+      <button type="button" class="skip-q" data-skip>{POPUP.skip}</button>
     </div>
 
     <div class="step" data-step="3" hidden>
@@ -134,7 +134,7 @@ const names = Object.fromEntries(PRODUCT_ORDER.map((id) => [id, PRODUCTS[id].nam
     font: 500 16px/1.2 var(--font-body); color: var(--ink);
   }
   .answer[aria-busy='true'] { background: var(--ink); color: var(--on-ink); }
-  .skip {
+  .skip-q {
     align-self: center; min-height: 44px; min-width: 88px; padding: 0 12px; border: 0; background: none; cursor: pointer;
     font: 500 15px/1 var(--font-body); color: var(--ink); text-decoration: underline; text-underline-offset: 3px;
   }
