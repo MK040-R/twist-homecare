@@ -1,0 +1,151 @@
+---
+// The Notify me popup: bottom sheet on mobile, centred modal on desktop.
+// Behaviour lives in src/scripts/notify.ts. Copy lives in src/data/site.ts.
+import Icon from './Icon.astro';
+import { POPUP, PRODUCTS, PRODUCT_ORDER } from '../data/site';
+
+const names = Object.fromEntries(PRODUCT_ORDER.map((id) => [id, PRODUCTS[id].name]));
+---
+<dialog
+  id="notify"
+  class="notify"
+  aria-labelledby="notify-title"
+  data-title-any={POPUP.titleAny}
+  data-title-product={POPUP.titleProduct}
+  data-q-product={POPUP.s2QuestionProduct}
+  data-button={POPUP.button}
+  data-button-loading={POPUP.buttonLoading}
+  data-errors={JSON.stringify(POPUP.errors)}
+  data-names={JSON.stringify(names)}
+>
+  <div class="sheet">
+    <button type="button" class="close" data-close aria-label={POPUP.close}>
+      <Icon name="close" size={22} stroke={2} />
+    </button>
+
+    <div class="step" data-step="1">
+      <h2 class="title" id="notify-title">{POPUP.titleAny}</h2>
+      <form class="form" novalidate>
+        <label class="field-label" for="notify-email">{POPUP.emailLabel}</label>
+        <input
+          id="notify-email"
+          class="input"
+          type="email"
+          name="email"
+          autocomplete="email"
+          inputmode="email"
+          autocapitalize="off"
+          spellcheck="false"
+          enterkeyhint="send"
+          placeholder={POPUP.emailPlaceholder}
+          aria-describedby="notify-error notify-small"
+          required
+        />
+        <p class="error" id="notify-error" role="alert" hidden></p>
+        <div class="hp" aria-hidden="true">
+          <label>Leave this empty <input type="text" name="website" tabindex="-1" autocomplete="off" /></label>
+        </div>
+        <button type="submit" class="btn submit">{POPUP.button}</button>
+        <p class="small" id="notify-small">{POPUP.smallprint}</p>
+      </form>
+    </div>
+
+    <div class="step" data-step="2" hidden>
+      <h2 class="title" tabindex="-1">{POPUP.s2Title}</h2>
+      <fieldset class="ask" data-for="product">
+        <legend class="q" data-q></legend>
+        <div class="answers">
+          {POPUP.s2AnswersProduct.map((a) => (
+            <button type="button" class="answer" data-answer={a.value}>{a.label}</button>
+          ))}
+        </div>
+      </fieldset>
+      <fieldset class="ask" data-for="any">
+        <legend class="q">{POPUP.s2QuestionAny}</legend>
+        <div class="answers">
+          {PRODUCT_ORDER.map((id) => (
+            <button type="button" class="answer" data-answer={id}>{PRODUCTS[id].name}</button>
+          ))}
+        </div>
+      </fieldset>
+      <button type="button" class="skip" data-skip>{POPUP.skip}</button>
+    </div>
+
+    <div class="step" data-step="3" hidden>
+      <h2 class="title" tabindex="-1">{POPUP.s3Title}</h2>
+      <button type="button" class="btn" data-close>{POPUP.s3Button}</button>
+    </div>
+  </div>
+</dialog>
+
+<style>
+  .notify {
+    border: 0; padding: 0; margin: auto auto 0; width: 100%; max-width: 100%;
+    max-height: calc(100dvh - 24px - var(--kb, 0px));
+    transform: translateY(calc(-1 * var(--kb, 0px)));
+    background: transparent; color: var(--ink);
+    overscroll-behavior: contain;
+  }
+  .notify::backdrop { background: color-mix(in srgb, var(--ink) 55%, transparent); }
+  .sheet {
+    position: relative;
+    background: var(--surface);
+    border-radius: 24px 24px 0 0;
+    padding: 28px 20px calc(24px + env(safe-area-inset-bottom));
+    display: flex; flex-direction: column;
+    max-height: calc(100dvh - 24px - var(--kb, 0px)); overflow-y: auto;
+  }
+  .close {
+    position: absolute; top: 10px; right: 10px;
+    width: 44px; height: 44px; border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+    display: inline-flex; align-items: center; justify-content: center; color: var(--ink);
+  }
+  .step { display: flex; flex-direction: column; gap: 16px; }
+  .step[hidden] { display: none; }
+  .title {
+    font-family: var(--font-display); font-weight: 600; letter-spacing: -0.012em;
+    font-size: 26px; line-height: 1.15; padding-right: 44px;
+  }
+  .title:focus { outline: none; }
+  .form { display: flex; flex-direction: column; gap: 10px; }
+  .field-label { font-size: 14px; font-weight: 500; color: var(--ink-muted); }
+  .input {
+    width: 100%; min-height: 52px; padding: 0 18px;
+    font: 400 17px/1.2 var(--font-body); color: var(--ink);
+    background: #fff; border: 1.5px solid color-mix(in srgb, var(--ink) 30%, transparent); border-radius: 14px;
+  }
+  .input::placeholder { color: color-mix(in srgb, var(--ink-muted) 70%, transparent); }
+  .input:focus-visible { outline: 3px solid var(--ink); outline-offset: 1px; border-color: var(--ink); }
+  .input[aria-invalid='true'] { border-color: #B3261E; }
+  .error { font-size: 14px; line-height: 1.4; color: #B3261E; }
+  .error[hidden] { display: none; }
+  .submit { width: 100%; margin-top: 6px; }
+  .submit[aria-busy='true'] { opacity: .75; cursor: progress; }
+  .small { font-size: 13px; color: var(--ink-subtle); text-align: center; }
+  .hp { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
+
+  .ask { border: 0; margin: 0; padding: 0; min-width: 0; }
+  .ask[hidden] { display: none; }
+  .q { padding: 0; font-size: 17px; line-height: 1.45; color: var(--ink-muted); margin-bottom: 12px; }
+  .answers { display: flex; flex-direction: column; gap: 8px; }
+  .answer {
+    min-height: 50px; padding: 0 18px; border-radius: 14px; cursor: pointer; text-align: left;
+    background: transparent; border: 1px solid color-mix(in srgb, var(--ink) 25%, transparent);
+    font: 500 16px/1.2 var(--font-body); color: var(--ink);
+  }
+  .answer[aria-busy='true'] { background: var(--ink); color: var(--on-ink); }
+  .skip {
+    align-self: center; min-height: 44px; min-width: 88px; padding: 0 12px; border: 0; background: none; cursor: pointer;
+    font: 500 15px/1 var(--font-body); color: var(--ink); text-decoration: underline; text-underline-offset: 3px;
+  }
+
+  @media (min-width: 960px) {
+    .notify { margin: auto; width: min(480px, calc(100vw - 48px)); transform: none; }
+    .sheet { border-radius: 28px; padding: 40px 36px 32px; }
+    .close { top: 14px; right: 14px; }
+    .title { font-size: 30px; }
+  }
+  @media (hover: hover) {
+    .answer:hover { border-color: var(--ink); }
+  }
+</style>

@@ -1,0 +1,486 @@
+---
+import { Picture as Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import NotifyButton from '../components/NotifyButton.astro';
+import Faq from '../components/Faq.astro';
+import { ALT, LAUNCH, PRODUCTS, type ProductId } from '../data/site';
+import { ILLUS_DESKTOP, ILLUS_MOBILE } from '../data/illustrations';
+
+import bottleEveryday from '../assets/bottle-everyday.webp';
+import bottleQuikwash from '../assets/bottle-quikwash.webp';
+import bottleUndergarment from '../assets/bottle-undergarment.webp';
+import stageFormulation from '../assets/home-route-formulation.webp';
+import stageInternal from '../assets/home-route-internal-testing.webp';
+import stageLabs from '../assets/home-route-independent-labs.webp';
+import stageTrials from '../assets/home-route-home-trials.webp';
+import stageLaunch from '../assets/home-route-launch.webp';
+
+const cards: {
+  id: ProductId; label: string; line: string; tags: string[]; quote: string;
+  img: ImageMetadata; alt: string; hM: number; hD: number;
+}[] = [
+  {
+    id: 'everyday-wash', label: 'Everyday loads', line: 'For the daily pile.',
+    tags: ['Cottons', 'Blends', 'Bedsheets', 'Towels'],
+    quote: 'Gentle on fabric. Protects against 8 signs of fabric ageing.',
+    img: bottleEveryday, alt: ALT.bottle['everyday-wash'], hM: 160, hD: 270,
+  },
+  {
+    id: 'quikwash', label: 'Quick cycle', line: 'For sweaty synthetics or lightly worn clothes.',
+    tags: ['Gym wear', 'Athleisure', 'Cotton'],
+    quote: 'No re-stink, even after 50 washes.',
+    img: bottleQuikwash, alt: ALT.bottle.quikwash, hM: 160, hD: 270,
+  },
+  {
+    id: 'undergarment-wash', label: 'Hand wash', line: 'For intimate stains, washed by hand.',
+    tags: ['Innerwear', 'Period stains', 'Lingerie'],
+    quote: 'Removes 6 types of intimate stains.',
+    img: bottleUndergarment, alt: ALT.bottlePump, hM: 132, hD: 220,
+  },
+];
+
+// m / d = mobile / desktop wording.
+const problems = [
+  {
+    title: 'Too harsh',
+    m: 'Detergents are often made strongly alkaline because a high pH breaks down grease fast. The same alkalinity can dry out skin and wear fibres down.',
+    d: 'Detergents are often made strongly alkaline, because a high pH breaks down grease and stains fast. The same alkalinity can leave skin dry and irritated, and wears fibres down wash after wash.',
+    proofM: 'Laundry liquids typically wash at pH 9 or higher. Healthy skin sits below pH 5.',
+    proofD: 'Laundry liquids typically wash at pH 9 or higher. Healthy skin sits below pH 5.',
+    oursM: 'Each formula is being built to clean at the gentlest pH that does the job.',
+    oursD: 'Each formula is being built to clean at the gentlest pH that does the job.',
+  },
+  {
+    title: "Doesn't protect fabric",
+    m: 'Detergents are sold on how clean clothes look after one wash, not on what fifty washes do to colour, stretch and strength.',
+    d: 'Detergents are sold on how clean clothes look after one wash. Very few are tested on what fifty washes do to colour, stretch and strength.',
+    proofM: 'A single 6 kg wash of acrylic clothes can shed over 700,000 fibres.',
+    proofD: 'A single 6 kg wash of acrylic clothes can shed over 700,000 fibres.',
+    oursM: 'Everyday Wash is being tested for fibre strength, fading and pilling across repeated washes.',
+    oursD: 'Everyday Wash is being tested for fibre strength, fading and pilling across repeated washes.',
+  },
+  {
+    title: 'Not made for Indian conditions',
+    m: 'Minerals in hard water tie up cleaning agents, so you add more and still get stiff, dull clothes. Much of our laundry is also washed cold.',
+    d: 'Minerals in hard water latch onto cleaning agents before they reach the dirt, so you add more and still get stiff, dull clothes. Much of our laundry is also washed cold, straight from the tap.',
+    proofM: "India's standard allows hardness up to 600 mg/L. Above 180 is very hard.",
+    proofD: "India's drinking-water standard allows hardness up to 600 mg/L. Anything above 180 counts as very hard.",
+    oursM: 'Every formula is tested at 200 to 300 mg/L and 10 to 40°C.',
+    oursD: 'Every formula is tested at 200 to 300 mg/L hardness and 10 to 40°C water.',
+  },
+  {
+    title: 'Lets the smell come back',
+    m: 'Polyester holds on to skin oil, and bacteria feeding on it cause the smell. A short wash rarely reaches that oil.',
+    d: 'Polyester holds on to skin oil, and the bacteria that feed on it produce the smell. A short wash rarely reaches that oil, so the odour returns the moment you sweat again.',
+    proofM: 'After a workout, polyester shirts smelled significantly worse than cotton.',
+    proofD: 'After a workout, polyester shirts smelled significantly worse than cotton, with odour bacteria thriving on the polyester.',
+    oursM: 'Quikwash is being tested for re-odour over repeated washes.',
+    oursD: 'Quikwash is being built for synthetics and tested for re-odour over repeated washes.',
+  },
+  {
+    title: 'Leaves stains behind',
+    m: 'Blood, sweat and intimate stains are proteins. They need enzymes to break down, which bar soap does not have.',
+    d: 'Blood, sweat and other intimate stains are proteins. They need enzymes to break down, and heat can set them, which is why a cold hand wash with bar soap so often leaves a mark.',
+    proofM: 'Protein stains need enzymes. Plain soap has none, so it relies on scrubbing alone.',
+    proofD: 'Protein stains need enzymes to break down. Plain soap has none, so it relies on scrubbing alone.',
+    oursM: 'Undergarment Wash is being tested on six intimate stains in a cold hand wash.',
+    oursD: 'Undergarment Wash is being tested on six intimate stains in a cold hand wash.',
+  },
+  {
+    title: 'Cuts corners to cut the price',
+    m: 'Some powders are bulked out with ingredients that add weight but do no cleaning.',
+    d: 'Some powders are bulked out with ingredients that add weight but do no cleaning, so the pack looks like more for the money.',
+    proofM: 'Many powders use sodium sulphate as filler. It adds weight, not cleaning.',
+    proofD: 'Many detergent powders use sodium sulphate as a filler. It adds weight to the pack but does no cleaning.',
+    oursM: 'Concentrated liquids with a full ingredient list.',
+    oursD: 'Concentrated liquids with a full ingredient list on every pack.',
+  },
+];
+
+const stages = [
+  { labelM: 'Now · you are here', labelD: 'Now', title: 'Formulation', line: 'Getting each formula right.', img: stageFormulation, alt: 'Laboratory glassware with liquid' },
+  { labelM: 'Next', labelD: 'Next', title: 'Internal testing', line: 'Our own washes, real clothes.', img: stageInternal, alt: 'Front-load washing machine at home' },
+  { labelM: 'Then', labelD: 'Then', title: 'Independent labs', line: 'Third-party tests.', img: stageLabs, alt: 'Lab technician placing a sample under a microscope' },
+  { labelM: 'Then', labelD: 'Then', title: 'Home trials', line: 'Real homes, before launch.', img: stageTrials, alt: 'Laundry basket of clothes at home' },
+  { labelM: 'Target', labelD: 'Target', title: 'Launch', line: LAUNCH, img: stageLaunch, alt: 'Cardboard delivery box' },
+];
+
+const faqs: [string, string][] = [
+  ['Is Twist on sale yet?', "Not yet. All three washes are still being developed and tested. Leave your email and we'll write the day they are ready."],
+  ['When will it launch?', `We're aiming for ${LAUNCH}. If testing takes longer, we'll say so here rather than rush it.`],
+  ['Are your claims tested yet?', 'Not all of them. The formulas are still being developed and tested. But rest assured, the products will go live only if they pass all the tests.'],
+  ['How much will it cost?', "We'll share prices with everyone on the list before launch."],
+  ['Is it safe for sensitive skin and baby clothes?', "That is one of the things we are testing, with a skin irritation test on washed fabric. We'll publish the result."],
+  ['Will you spam me?', 'No. One email when we launch, and the occasional update if a test result is worth sharing. Unsubscribe in one click.'],
+];
+
+const aboutBody =
+  "We spend a lot of thought on the clothes we buy and very little on what we wash them in. We're Farzyn and Murali, a wife and husband team. We started Twist because we couldn't find laundry products that were made for Indian water, Indian weather and the way we actually wash clothes. Twist lets you choose the right product for each load and takes care of your clothes, so you don't have to worry about them.";
+
+// Mobile route map: stop positions from the design (350 x 750 box).
+const route = [
+  { top: 0, imgLeft: 20, side: 'left' },
+  { top: 150, imgLeft: 246, side: 'right' },
+  { top: 300, imgLeft: 20, side: 'left' },
+  { top: 450, imgLeft: 246, side: 'right' },
+  { top: 600, imgLeft: 20, side: 'left' },
+];
+---
+<Base
+  title="Twist: laundry care that cares for your clothes"
+  description={`Three washes, each built for one kind of load. Everyday Wash, Quikwash and Undergarment Wash, launching ${LAUNCH}. Get notified.`}
+>
+  <!-- Hero -->
+  <section class="hero wrap" aria-labelledby="hero-h">
+    <div class="hero-art" aria-hidden="false">
+      <div class="circle"></div>
+      <div class="floor"></div>
+      <Image formats={['avif', 'webp']} class="bottle b-qw" src={bottleQuikwash} alt="Twist Quikwash bottle, prototype pack design" widths={[190, 371]} sizes="(min-width: 960px) 26vw, 76px" loading="eager" fetchpriority="high" />
+      <Image formats={['avif', 'webp']} class="bottle b-uw" src={bottleUndergarment} alt={ALT.bottlePump} widths={[150, 329]} sizes="(min-width: 960px) 20vw, 54px" loading="eager" fetchpriority="high" />
+      <Image formats={['avif', 'webp']} class="bottle b-ew" src={bottleEveryday} alt="Twist Everyday Wash bottle, prototype pack design" widths={[180, 350]} sizes="(min-width: 960px) 26vw, 90px" loading="eager" fetchpriority="high" />
+    </div>
+    <div class="hero-text">
+      <h1 id="hero-h">A brand that cares for your clothes</h1>
+      <p class="body lede">We tackle dirty laundry with clean science. Our [Name]™ technology provides advanced cleaning, precisely targets your stains and protects your fabric.</p>
+      <div><a class="btn hero-btn" href="#washes">See our products<Icon name="arrow-down" /></a></div>
+    </div>
+  </section>
+
+  <!-- Our products -->
+  <section id="washes" class="washes band-alt" aria-labelledby="washes-h">
+    <div class="wrap">
+      <div class="washes-head">
+        <h2 class="h2" id="washes-h">Our products</h2>
+        <p class="body m-only">Three solutions, each built for one kind of load.</p>
+        <p class="body d-only intro-d">One bottle can't do every job well, so we're making three, each built for one kind of load.</p>
+      </div>
+      <div class="cards" data-carousel>
+        <div class="car" role="region" aria-label="Our three washes" tabindex="0">
+          {cards.map((c) => (
+            <article class="pcard">
+              <div class="ptint">
+                <span class="label tint-label">{c.label}</span>
+                <Image formats={['avif', 'webp']} class="bottle" src={c.img} alt={c.alt} widths={[120, 240]} sizes={`(min-width: 960px) ${c.hD / 2.57}px, ${c.hM / 2.57}px`} style={`--hm:${c.hM}px;--hd:${c.hD}px`} />
+              </div>
+              <div class="pbody">
+                <h3>{PRODUCTS[c.id].name}</h3>
+                <p class="line">{c.line}</p>
+                <ul class="tags">{c.tags.map((t) => <li class="tag">{t}</li>)}</ul>
+                <p class="quote d-only">{c.quote}</p>
+                <div class="actions">
+                  <NotifyButton product={c.id} class="btn notify" ariaLabel={`Notify me when ${PRODUCTS[c.id].name} launches`} />
+                  <a class="tlink learn" href={PRODUCTS[c.id].href} aria-label={`Learn more about ${PRODUCTS[c.id].name}`}>Learn more</a>
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
+        <div class="dots m-only">
+          {cards.map((c, i) => (
+            <button type="button" class="dot" aria-label={`Show ${PRODUCTS[c.id].name}`} aria-current={i === 0 ? 'true' : 'false'}></button>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- What most detergents get wrong -->
+  <section id="why" class="why" aria-labelledby="why-h">
+    <div class="wrap">
+      <div class="why-head">
+        <div class="why-titles">
+          <h2 class="h2" id="why-h">What most detergents get wrong.</h2>
+          <p class="subh">And why we're making our own.</p>
+        </div>
+        <p class="body m-only">Tap a problem to see why it happens.</p>
+        <p class="body d-only">Pick a problem to see why it happens and the evidence behind it.</p>
+      </div>
+
+      <!-- Mobile: accordion -->
+      <div class="acc m-only" data-accordion>
+        {problems.map((p, i) => (
+          <div class="acc-item">
+            <h3 class="acc-h">
+              <button type="button" class="ptab" aria-expanded={i === 0 ? 'true' : 'false'} aria-controls={`prob-m-${i}`}>
+                <span class="num">0{i + 1}</span><span class="t">{p.title}</span><span class="sign" aria-hidden="true">{i === 0 ? '−' : '+'}</span>
+              </button>
+            </h3>
+            <div class="acc-panel" id={`prob-m-${i}`} hidden={i !== 0}>
+              <div class="illus" set:html={ILLUS_MOBILE[i + 1]} />
+              <p class="expl">{p.m}</p>
+              <div class="proof"><p>{p.proofM}</p></div>
+              <div class="proof ours"><span class="label">What we're doing</span><p>{p.oursM}</p></div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <!-- Desktop: vertical tabs -->
+      <div class="tabs d-only">
+        <div class="tablist" role="tablist" aria-orientation="vertical" aria-label="Problems">
+          {problems.map((p, i) => (
+            <button type="button" class="ptab" role="tab" id={`prob-t-${i}`} aria-selected={i === 0 ? 'true' : 'false'} aria-controls={`prob-d-${i}`} tabindex={i === 0 ? 0 : -1}>
+              <span class="num">0{i + 1}</span><span class="t">{p.title}</span><Icon name="arrow-right" size={20} />
+            </button>
+          ))}
+        </div>
+        {problems.map((p, i) => (
+          <div class="tabpanel" role="tabpanel" id={`prob-d-${i}`} aria-labelledby={`prob-t-${i}`} hidden={i !== 0} tabindex="0">
+            <div class="illus" set:html={ILLUS_DESKTOP[i + 1]} />
+            <div class="tp-text">
+              <span class="label">0{i + 1}</span>
+              <h3>{p.title}</h3>
+              <p class="expl">{p.d}</p>
+            </div>
+            <div class="tp-boxes">
+              <div class="proof"><p>{p.proofD}</p></div>
+              <div class="proof ours"><span class="label">What we're doing</span><p>{p.oursD}</p></div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Where are we now? -->
+  <section id="where" class="where band-alt" aria-labelledby="where-h">
+    <div class="wrap">
+      <div class="where-head">
+        <h2 class="h2" id="where-h">Where are we now?</h2>
+        <span class="label d-only">Last updated 5 Oct</span>
+      </div>
+
+      <!-- Mobile: route map -->
+      <ol class="route m-only" aria-label="Our route to launch">
+        <svg class="route-path" width="350" height="750" viewBox="0 0 350 750" fill="none" aria-hidden="true">
+          <path d="M62 75 C62 150, 288 150, 288 225 C288 300, 62 300, 62 375 C62 450, 288 450, 288 525 C288 600, 62 600, 62 675" style="stroke: var(--ink); opacity: .4" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="1 9"></path>
+          <path d="M62 75 C62 150, 288 150, 288 225" pathLength="100" style="stroke: var(--ink)" stroke-width="3" stroke-linecap="round" stroke-dasharray="45 200"></path>
+          <path d="M-5 -6 L2 0 L-5 6" transform="translate(175 150) rotate(18.4)" style="stroke: var(--ink); opacity: .55" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+          <path d="M-5 -6 L2 0 L-5 6" transform="translate(175 300) rotate(161.6)" style="stroke: var(--ink); opacity: .55" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+          <path d="M-5 -6 L2 0 L-5 6" transform="translate(175 450) rotate(18.4)" style="stroke: var(--ink); opacity: .55" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+          <path d="M-5 -6 L2 0 L-5 6" transform="translate(175 600) rotate(161.6)" style="stroke: var(--ink); opacity: .55" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+        </svg>
+        {stages.map((s, i) => (
+          <li class:list={['stop', route[i].side, { now: i === 0 }]} style={`top:${route[i].top}px`}>
+            <Image formats={['avif', 'webp']} class="stop-img" src={s.img} alt={s.alt} widths={[84, 168]} sizes="84px" style={`left:${route[i].imgLeft}px`} />
+            {i === 4 && <span class="flag"><Icon name="flag" size={15} stroke={2} /></span>}
+            <div class="stop-text">
+              <span class="label">{s.labelM}</span>
+              <h3>{s.title}</h3>
+              <p>{s.line}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+
+      <!-- Desktop: five columns -->
+      <ol class="stages d-only">
+        {stages.map((s, i) => (
+          <li class:list={['stage', { now: i === 0 }]}>
+            <div class="bar">{i === 0 && <div class="fill"></div>}</div>
+            <span class="label">{s.labelD}</span>
+            <h3>{s.title}</h3>
+            <Image formats={['avif', 'webp']} class="simg" src={s.img} alt={s.alt} widths={[240, 480]} sizes="(min-width: 1440px) 244px, 17vw" />
+            <p>{s.line}</p>
+          </li>
+        ))}
+      </ol>
+      <span class="src credit">Photos: Unsplash</span>
+    </div>
+  </section>
+
+  <!-- About us -->
+  <section id="about" class="about" aria-label="About us">
+    <div class="wrap about-inner">
+      <figure class="about-photo">
+        <div class="ph">Candid photo, daylight</div>
+        <figcaption class="label">Murali &amp; Farzyn · Hyderabad</figcaption>
+      </figure>
+      <p class="body about-body">{aboutBody}</p>
+    </div>
+  </section>
+
+  <Faq id="home-faq" items={faqs} alt padDesktop={120} fullWidthAnswers />
+</Base>
+
+<style>
+  /* Hero */
+  .hero { display: flex; flex-direction: column; gap: 14px; padding-top: 20px; padding-bottom: 44px; }
+  .hero-art { position: relative; width: 358px; height: 290px; margin-bottom: 6px; align-self: center; flex-shrink: 0; }
+  .circle { position: absolute; left: 45px; top: 8px; width: 260px; height: 260px; border-radius: 50%; background: var(--surface-alt); }
+  .floor { position: absolute; left: 20px; right: 20px; bottom: 20px; height: 1px; background: var(--line); }
+  .hero-art :global(.bottle) { position: absolute; bottom: 20px; width: auto; }
+  .hero-art :global(.b-qw) { left: 48px; height: 180px; }
+  .hero-art :global(.b-uw) { left: 228px; height: 145px; }
+  .hero-art :global(.b-ew) { left: 130px; height: 230px; }
+  h1 { font-size: 38px; line-height: 1.04; }
+  .hero-btn { display: flex; width: 100%; min-height: 50px; padding: 0 20px; }
+  .hero-text { display: flex; flex-direction: column; gap: 14px; }
+
+  @media (min-width: 960px) {
+    .hero {
+      display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 32px; align-items: center;
+      padding-block: 0; min-height: clamp(560px, 52.8vw, 760px);
+    }
+    .hero-text { grid-column: 1 / span 6; grid-row: 1; gap: 26px; }
+    h1 { font-size: clamp(52px, 5.28vw, 76px); line-height: 1.02; }
+    .lede { font-size: 20px; max-width: 540px; }
+    .hero-btn { display: inline-flex; width: auto; min-height: 54px; padding: 0 28px; font-size: 17px; }
+    .hero-art { grid-column: 7 / span 6; grid-row: 1; width: 100%; height: auto; aspect-ratio: 632 / 700; margin: 0; }
+    .circle { left: 5.696%; top: 8.571%; width: 91.77%; height: auto; aspect-ratio: 1; }
+    .floor { left: 7.911%; right: 4.747%; bottom: 8.286%; }
+    .hero-art :global(.bottle) { bottom: 8.286%; }
+    .hero-art :global(.b-qw) { left: 7.911%; height: 57.14%; }
+    .hero-art :global(.b-uw) { left: 69.15%; height: 45.71%; }
+    .hero-art :global(.b-ew) { left: 35.6%; height: 74.29%; }
+  }
+
+  /* Our products */
+  .washes { padding-block: 56px; }
+  .washes .wrap { padding-inline: var(--gutter-tight); display: flex; flex-direction: column; gap: 16px; }
+  .washes-head { padding: 0 4px; display: flex; flex-direction: column; gap: 10px; margin-bottom: 4px; }
+  .pcard { background: var(--surface); border-radius: 22px; overflow: hidden; display: flex; flex-direction: column; }
+  .ptint { height: 230px; padding-bottom: 24px; }
+  .tint-label { position: absolute; left: 16px; top: 14px; }
+  .ptint :global(.bottle) { height: var(--hm); }
+  .pbody { padding: 20px; display: flex; flex-direction: column; gap: 10px; flex-grow: 1; }
+  .pbody h3 { font-size: 26px; font-weight: 500; }
+  .line { font-size: 14px; color: var(--ink-muted); }
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .actions { display: flex; gap: 16px; align-items: center; margin-top: 4px; }
+  .actions :global(.notify) { flex-grow: 1; min-height: 50px; padding: 0 20px; }
+  .learn { font-size: 15px; text-decoration: underline; text-underline-offset: 3px; border-bottom: 0; justify-content: center; }
+  .dots { padding-top: 4px; }
+
+  @media (min-width: 960px) {
+    .washes { padding-block: 120px; }
+    .washes .wrap { gap: 48px; }
+    .washes-head { flex-direction: row; justify-content: space-between; align-items: flex-end; padding: 0; margin: 0; gap: 32px; }
+    .intro-d { max-width: 440px; }
+    .car { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; overflow: visible; margin: 0; padding: 0; }
+    .car > * { flex: none; }
+    .pcard { border-radius: 28px; }
+    .ptint { height: clamp(300px, 26.4vw, 380px); padding-bottom: 40px; }
+    .tint-label { left: 22px; top: 20px; }
+    .ptint :global(.bottle) { height: min(var(--hd), 71%); }
+    .pbody { padding: 28px 30px 30px; gap: 14px; }
+    .pbody h3 { font-size: 32px; letter-spacing: -0.02em; }
+    .line { font-size: 16px; line-height: 1.55; }
+    .quote { font-size: 19px; font-weight: 500; line-height: 1.4; color: var(--ink); }
+    .actions { gap: 20px; margin-top: auto; padding-top: 6px; }
+    .actions :global(.notify) { flex-grow: 0; min-height: 52px; padding: 0 24px; }
+    .learn { font-size: 16px; text-decoration: none; border-bottom: 1px solid currentColor; }
+  }
+
+  /* Problems */
+  .why { padding-block: 56px; }
+  .why .wrap { padding-inline: var(--gutter-tight); display: flex; flex-direction: column; gap: 10px; }
+  .why-head { padding: 0 4px 8px; display: flex; flex-direction: column; gap: 10px; }
+  .why-titles { display: flex; flex-direction: column; gap: 10px; }
+  .subh { font-size: 22px; }
+  .acc { display: flex; flex-direction: column; gap: 10px; }
+  .acc-item { display: flex; flex-direction: column; gap: 10px; }
+  .acc-h { font: inherit; }
+  .ptab {
+    display: flex; align-items: center; gap: 12px; width: 100%; min-height: 58px; padding: 0 16px;
+    border-radius: 14px; border: 1px solid color-mix(in srgb, var(--ink) 14%, transparent);
+    background: transparent; color: var(--ink);
+    font-family: var(--font-body); font-size: 17px; font-weight: 500; text-align: left; cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .ptab[aria-expanded='true'], .ptab[aria-selected='true'] { background: var(--ink); color: var(--surface); border-color: var(--ink); }
+  .ptab[aria-selected='true']:focus-visible, .ptab[aria-expanded='true']:focus-visible { outline-color: var(--ink); }
+  .num { font-size: 12px; opacity: .7; }
+  .t { flex-grow: 1; }
+  .ptab .sign { font-size: 20px; font-weight: 400; line-height: 1; }
+  .acc-panel { background: var(--surface-alt); border-radius: 18px; padding: 16px; display: flex; flex-direction: column; gap: 12px; margin-bottom: 6px; }
+  .acc-panel[hidden] { display: none; }
+  .illus { background: var(--surface); border-radius: 14px; padding: 12px; display: flex; align-items: center; justify-content: center; }
+  .illus :global(svg) { width: 100%; height: 110px; }
+  .illus :global(.svgl) { font-family: var(--font-body); }
+  .expl { font-size: 15px; line-height: 1.55; color: var(--ink-muted); }
+  .proof { background: var(--surface); border-radius: 14px; padding: 14px 16px; display: flex; flex-direction: column; gap: 6px; }
+  .proof p { font-size: 15px; line-height: 1.45; font-weight: 500; }
+  .ours { background: var(--ink); color: var(--on-ink); }
+  .ours p { font-weight: 400; }
+  .ours .label { color: var(--accent); }
+
+  @media (min-width: 960px) {
+    .why { padding-block: 130px; }
+    .why .wrap { gap: 52px; }
+    .why-head { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 48px; align-items: end; padding: 0; }
+    .why-titles { grid-column: span 7; gap: 16px; }
+    .why-head > .body { grid-column: span 5; }
+    .subh { font-size: clamp(24px, 2.08vw, 30px); }
+    .tabs { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 32px; align-items: start; }
+    .tablist { grid-column: span 4; display: flex; flex-direction: column; gap: 10px; }
+    .tablist .ptab { min-height: 76px; padding: 0 22px; border-radius: 18px; font-size: 19px; gap: 16px; }
+    .tablist .num { font-size: 13px; }
+    .tabpanel {
+      grid-column: 5 / span 8; grid-row: 1;
+      background: var(--surface-alt); border-radius: 28px; padding: 36px;
+      display: flex; flex-direction: column; gap: 22px; min-height: 620px;
+    }
+    .tabpanel[hidden] { display: none; }
+    .tabpanel:focus-visible { outline-offset: 4px; }
+    .tabpanel .illus { border-radius: 20px; height: 250px; padding: 0 24px; overflow: hidden; }
+    .tabpanel .illus :global(svg) { max-width: 620px; max-height: 210px; }
+    .tp-text { display: flex; flex-direction: column; gap: 12px; }
+    .tp-text h3 { font-size: 34px; font-weight: 500; letter-spacing: -0.02em; }
+    .tabpanel .expl { font-size: 17px; line-height: 1.6; }
+    .tp-boxes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+    .tabpanel .proof { border-radius: 16px; padding: 20px 22px; gap: 8px; }
+    .tabpanel .proof p { font-size: 17px; }
+  }
+
+  /* Where are we now */
+  .where { padding-block: 56px; }
+  .where-head { margin-bottom: 28px; }
+  .route { position: relative; width: 350px; height: 750px; margin: 0 auto; }
+  .route-path { position: absolute; left: 0; top: 0; }
+  .stop { position: absolute; left: 0; width: 350px; height: 150px; }
+  .stop :global(.stop-img) {
+    position: absolute; top: 33px; width: 84px; height: 84px; border-radius: 50%; object-fit: cover;
+    border: 3px solid var(--surface); opacity: .9;
+  }
+  .stop.now :global(.stop-img) { border-color: var(--ink); opacity: 1; box-shadow: 0 0 0 7px color-mix(in srgb, var(--ink) 16%, transparent); }
+  .flag { position: absolute; left: 78px; top: 27px; width: 30px; height: 30px; border-radius: 50%; background: var(--ink); color: var(--on-ink); display: flex; align-items: center; justify-content: center; }
+  .stop-text { position: absolute; top: 36px; display: flex; flex-direction: column; gap: 4px; }
+  .stop.left .stop-text { left: 120px; right: 0; text-align: left; }
+  .stop.right .stop-text { left: 0; right: 120px; text-align: right; }
+  .stop h3 { font-family: var(--font-display); font-size: 22px; font-weight: 600; line-height: 1.15; color: var(--ink-muted); }
+  .stop p { font-size: 14px; line-height: 1.4; color: var(--ink-muted); }
+  .stop.now .label, .stop.now h3 { color: var(--ink); }
+  .credit { display: block; margin-top: 20px; }
+
+  @media (min-width: 960px) {
+    .where { padding-block: 120px 110px; }
+    .where-head { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 44px; }
+    .stages { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 20px; }
+    .stage { display: flex; flex-direction: column; gap: 12px; }
+    .bar { height: 6px; border-radius: 999px; background: color-mix(in srgb, var(--ink) 12%, transparent); overflow: hidden; }
+    .fill { width: 55%; height: 100%; background: var(--ink); }
+    .stage .label { color: var(--ink-muted); }
+    .stage.now .label { color: var(--ink); }
+    .stage h3 { font-size: 22px; font-weight: 500; color: var(--ink-muted); }
+    .stage.now h3 { color: var(--ink); }
+    .stage :global(.simg) { width: 100%; height: 160px; object-fit: cover; border-radius: 16px; opacity: .85; }
+    .stage.now :global(.simg) { opacity: 1; }
+    .stage p { font-size: 15px; line-height: 1.5; color: var(--ink-muted); }
+    .credit { margin-top: 44px; }
+  }
+
+  /* About */
+  .about { padding-block: 56px; }
+  .about-inner { display: flex; flex-direction: column; gap: 16px; }
+  .about-photo { display: flex; flex-direction: column; gap: 16px; }
+  .about-photo .ph { height: 240px; border-radius: 18px; font-size: 11px; }
+  @media (min-width: 960px) {
+    .about { padding-block: 130px; }
+    .about-inner { flex-direction: row; align-items: center; gap: 80px; padding-inline: calc(var(--gutter) + 16px); }
+    .about-photo { gap: 12px; flex-shrink: 0; }
+    .about-photo .ph { width: 400px; height: 320px; border-radius: 20px; font-size: 12px; }
+    .about-body { max-width: 640px; }
+  }
+</style>

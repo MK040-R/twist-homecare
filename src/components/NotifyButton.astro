@@ -1,0 +1,17 @@
+---
+// Opens the Notify me popup. `product` sets what the signup is for; omit it for "any".
+import Icon from './Icon.astro';
+import type { PopupProduct } from '../data/site';
+
+interface Props {
+  product?: PopupProduct;
+  label?: string;
+  icon?: boolean;
+  class?: string;
+  ariaLabel?: string;
+}
+const { product, label = 'Notify me', icon = false, class: cls = 'btn', ariaLabel } = Astro.props;
+---
+<button type="button" class={cls} data-notify={product ?? ''} aria-haspopup="dialog" aria-label={ariaLabel}>
+  {icon && <Icon name="bell" size={18} />}{label}
+</button>

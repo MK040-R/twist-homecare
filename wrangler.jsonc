@@ -1,0 +1,15 @@
+// Cloudflare Workers config: serves the static site from ./dist and runs worker/index.ts for /api/*.
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "twist-website",
+  "main": "worker/index.ts",
+  "compatibility_date": "2026-09-01",
+  "assets": {
+    "directory": "./dist",
+    "binding": "ASSETS",
+    "html_handling": "drop-trailing-slash",
+    "not_found_handling": "404-page",
+    "run_worker_first": ["/api/*"]
+  },
+  "observability": { "enabled": true }
+}

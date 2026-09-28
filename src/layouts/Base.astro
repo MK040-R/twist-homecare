@@ -1,0 +1,70 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import NotifyDialog from '../components/NotifyDialog.astro';
+import type { PopupProduct } from '../data/site';
+
+interface Props {
+  title: string;
+  description: string;
+  product?: PopupProduct;   // what the popup signs people up for on this page
+  noindex?: boolean;
+  ogType?: 'website' | 'article';
+}
+const { title, description, product = 'any', noindex = false, ogType = 'website' } = Astro.props;
+const canonical = new URL(Astro.url.pathname.replace(/\/$/, '') || '/', Astro.site).href;
+const ogImage = new URL('/og.png', Astro.site).href;
+const shareAlt = 'The three Twist washes, Everyday Wash, Quikwash and Undergarment Wash, on a dark blue background';
+---
+<!doctype html>
+<html lang="en-IN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    {noindex ? <meta name="robots" content="noindex" /> : <link rel="canonical" href={canonical} />}
+    <meta name="theme-color" content="#F5F5F1" />
+
+    <link rel="preload" href="/fonts/eczar-var.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/mukta-400.woff2" as="font" type="font/woff2" crossorigin />
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    <meta property="og:type" content={ogType} />
+    <meta property="og:site_name" content="Twist" />
+    <meta property="og:locale" content="en_IN" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={shareAlt} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:image:alt" content={shareAlt} />
+    <slot name="head" />
+  </head>
+  <body data-product={product}>
+    <a class="skip" href="#main">Skip to content</a>
+    <Header />
+    <main id="main" tabindex="-1">
+      <slot />
+    </main>
+    <Footer />
+    <NotifyDialog />
+    <script>
+      import '../scripts/site';
+    </script>
+  </body>
+</html>
+
+<style>
+  main:focus { outline: none; }
+</style>

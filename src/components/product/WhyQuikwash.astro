@@ -1,0 +1,70 @@
+---
+import { Picture } from 'astro:assets';
+import why1 from '../../assets/quikwash-why-1.webp';
+import why2 from '../../assets/quikwash-why-2.webp';
+import why3 from '../../assets/quikwash-why-3.webp';
+
+const steps = [
+  { img: why1, title: 'After you sweat', body: 'Sweat and skin oil soak into the fabric.' },
+  { img: why2, title: 'After an ordinary wash', body: 'It looks clean, but the oil is still trapped inside.' },
+  { img: why3, title: 'The next time you wear it', body: 'Bacteria feed on that oil, and the smell is back.' },
+];
+---
+<section class="why band-alt" aria-labelledby="why-h">
+  <div class="wrap">
+    <div class="why-head">
+      <div class="why-l">
+        <h2 class="h2" id="why-h">Why clothes smell again after a wash.</h2>
+        <p class="hook">It smells fine out of the machine, then sour the moment you start sweating again.</p>
+      </div>
+      <div class="why-r">
+        <p class="body">Fresh sweat barely smells. The smell comes from bacteria feeding on the skin oil that sweat leaves in your clothes. Synthetic fabrics hold on to that oil, and an ordinary wash cleans the surface but leaves the oil behind.</p>
+        <p class="note d-only">In a 2014 study, polyester shirts smelled significantly worse than cotton after a workout.</p>
+      </div>
+    </div>
+    <ol class="steps">
+      {steps.map((s, i) => (
+        <li class="step">
+          <Picture src={s.img} alt="" formats={['avif', 'webp']} widths={[264, 528, 900]} sizes="(min-width: 960px) 30vw, 132px" />
+          <div class="st">
+            <span class="label">Step {i + 1}</span>
+            <h3>{s.title}</h3>
+            <p>{s.body}</p>
+          </div>
+        </li>
+      ))}
+    </ol>
+    <p class="note m-only">In a 2014 study, polyester shirts smelled significantly worse than cotton after a workout.</p>
+  </div>
+</section>
+
+<style>
+  .why { padding-block: 56px; }
+  .wrap { display: flex; flex-direction: column; gap: 16px; }
+  .why-head, .why-l, .why-r { display: flex; flex-direction: column; gap: 16px; }
+  .hook { font-size: 20px; }
+  .body { font-size: 15px; }
+  .steps { display: flex; flex-direction: column; gap: 14px; padding-top: 10px; }
+  .step { display: grid; grid-template-columns: 132px minmax(0, 1fr); gap: 16px; align-items: center; }
+  .step :global(img) { width: 132px; height: 100px; object-fit: cover; border-radius: 16px; }
+  .st { display: flex; flex-direction: column; gap: 3px; }
+  .st h3 { font-family: var(--font-display); font-size: 18px; font-weight: 600; line-height: 1.2; }
+  .st p { font-size: 14px; line-height: 1.4; color: var(--ink-muted); }
+  .note { font-size: 12px; line-height: 1.5; color: var(--ink-subtle); padding-top: 6px; }
+  @media (min-width: 960px) {
+    .why { padding-block: 110px; }
+    .wrap { gap: 48px; }
+    .why-head { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 48px; align-items: start; }
+    .why-l { grid-column: span 6; gap: 18px; }
+    .why-r { grid-column: 8 / span 5; gap: 14px; padding-top: 8px; }
+    .hook { font-size: clamp(22px, 1.8vw, 26px); }
+    .body { font-size: 18px; }
+    .note { font-size: 14px; padding: 0; }
+    .steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; padding: 0; }
+    .step { display: flex; flex-direction: column; align-items: stretch; gap: 16px; }
+    .step :global(img) { width: 100%; height: auto; aspect-ratio: 4 / 3; border-radius: 20px; }
+    .st { gap: 6px; }
+    .st h3 { font-size: 23px; }
+    .st p { font-size: 16px; line-height: 1.5; }
+  }
+</style>

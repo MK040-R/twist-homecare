@@ -1,0 +1,77 @@
+---
+import { Picture } from 'astro:assets';
+import a1 from '../../assets/everyday-ageing-1.webp';
+import a2 from '../../assets/everyday-ageing-2.webp';
+import a3 from '../../assets/everyday-ageing-3.webp';
+import a4 from '../../assets/everyday-ageing-4.webp';
+import a5 from '../../assets/everyday-ageing-5.webp';
+import a6 from '../../assets/everyday-ageing-6.webp';
+import a7 from '../../assets/everyday-ageing-7.webp';
+import a8 from '../../assets/everyday-ageing-8.webp';
+
+const signs = [
+  [a1, 'Fading', 'Colours go dull and patchy.'],
+  [a2, 'Greying', 'Whites turn dingy.'],
+  [a3, 'Pilling', 'Fuzz balls up on the surface.'],
+  [a4, 'Shrinkage', 'Clothes get shorter and tighter.'],
+  [a5, 'Stiffness', 'Towels turn rigid and crusty.'],
+  [a6, 'Harsh feel', 'Fabric feels rough on skin.'],
+  [a7, 'Lost stretch', 'Waistbands and leggings sag.'],
+  [a8, 'Weak fibres', 'Fabric thins until it tears.'],
+] as const;
+---
+<section class="why band-alt" aria-labelledby="why-h">
+  <div class="wrap">
+    <div class="why-head">
+      <div class="why-l">
+        <h2 class="h2" id="why-h">Why clothes look old before they are.</h2>
+        <p class="hook">Your favourite T-shirt didn't wear out. It was washed out.</p>
+      </div>
+      <div class="why-r">
+        <p class="body">Most detergents are judged on how clean clothes look after one wash, not on what fifty washes do to them. Harsh formulas and hard water slowly strip dye, raise fuzz and break fibres, so clothes fade, grey, pill and thin long before you're done with them.</p>
+      </div>
+    </div>
+    <h3 class="label ages-label">The 8 ways clothes age in the wash</h3>
+    <ul class="ages">
+      {signs.map(([img, title, line]) => (
+        <li class="age">
+          <Picture src={img} alt="" formats={['avif', 'webp']} widths={[180, 360, 600]} sizes="(min-width: 960px) 22vw, 45vw" />
+          <span class="t">{title}</span>
+          <span class="l">{line}</span>
+        </li>
+      ))}
+    </ul>
+    <p class="note">A single 6 kg wash of acrylic clothes can shed over 700,000 fibres.</p>
+  </div>
+</section>
+
+<style>
+  .why { padding-block: 56px; }
+  .wrap { display: flex; flex-direction: column; gap: 16px; }
+  .why-head, .why-l, .why-r { display: flex; flex-direction: column; gap: 16px; }
+  .hook { font-size: 20px; }
+  .body { font-size: 15px; }
+  .ages-label { color: var(--ink); padding-top: 12px; }
+  .ages { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px 12px; }
+  .age { display: flex; flex-direction: column; gap: 8px; }
+  .age :global(img) { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 14px; }
+  .t { font-family: var(--font-display); font-size: 16px; font-weight: 600; line-height: 1.2; }
+  .l { font-size: 13px; line-height: 1.4; color: var(--ink-muted); margin-top: -4px; }
+  .note { font-size: 12px; line-height: 1.5; color: var(--ink-subtle); padding-top: 6px; }
+  @media (min-width: 960px) {
+    .why { padding-block: 110px; }
+    .wrap { gap: 40px; }
+    .why-head { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 48px; align-items: start; }
+    .why-l { grid-column: span 6; gap: 18px; }
+    .why-r { grid-column: 8 / span 5; gap: 14px; padding-top: 8px; }
+    .hook { font-size: clamp(22px, 1.8vw, 26px); }
+    .body { font-size: 18px; }
+    .ages-label { padding: 0; }
+    .ages { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 36px 24px; }
+    .age { gap: 10px; }
+    .age :global(img) { border-radius: 18px; }
+    .t { font-size: 21px; }
+    .l { font-size: 15px; line-height: 1.45; }
+    .note { font-size: 14px; padding: 0; }
+  }
+</style>

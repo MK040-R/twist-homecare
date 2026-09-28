@@ -1,0 +1,26 @@
+---
+import { CONTACT_EMAIL, FOOTER } from '../data/site';
+---
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="row">
+      <p>{FOOTER.company} · <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a></p>
+      <p><a href="/privacy">Privacy</a> · <a href="/terms">Terms</a></p>
+    </div>
+    <p class="disc">{FOOTER.disclaimer}</p>
+  </div>
+</footer>
+
+<style>
+  .site-footer { padding: 20px 0 24px; font-size: 12px; line-height: 1.6; color: var(--ink-muted); }
+  .row { display: flex; flex-direction: column; }
+  a { color: inherit; text-underline-offset: 2px; display: inline-block; padding-block: 11px; margin-block: -11px; }
+  .row p + p { margin-top: 4px; }
+  .disc { margin-top: 6px; font-size: 11px; color: var(--ink-subtle); }
+  @media (min-width: 960px) {
+    .site-footer { padding: 26px 0; font-size: 14px; }
+    .row { flex-direction: row; justify-content: space-between; gap: 24px; }
+    .row p + p { margin-top: 0; }
+    .disc { margin-top: 10px; font-size: 12px; }
+  }
+</style>

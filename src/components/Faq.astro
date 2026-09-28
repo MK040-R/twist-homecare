@@ -1,0 +1,38 @@
+---
+// FAQ accordion: one item open at a time, the first open by default.
+interface Props { items: [string, string][]; id: string; heading?: string; alt?: boolean; padDesktop?: number; fullWidthAnswers?: boolean }
+const { items, id, heading = 'Fair questions.', alt = false, padDesktop = 110, fullWidthAnswers = false } = Astro.props;
+---
+<section class:list={['faq', { 'band-alt': alt, 'full-a': fullWidthAnswers }]} aria-labelledby={`${id}-h`} style={`--pad-d:${padDesktop}px`}>
+  <div class="wrap grid">
+    <h2 class="h2" id={`${id}-h`}>{heading}</h2>
+    <div class="faq-list" data-accordion>
+      {items.map(([q, a], i) => (
+        <div>
+          <h3>
+            <button type="button" class="faq-q" aria-expanded={i === 0 ? 'true' : 'false'} aria-controls={`${id}-a${i}`} id={`${id}-q${i}`}>
+              <span>{q}</span><span class="sign" aria-hidden="true">{i === 0 ? '−' : '+'}</span>
+            </button>
+          </h3>
+          <div class="faq-a" id={`${id}-a${i}`} role="region" aria-labelledby={`${id}-q${i}`} hidden={i !== 0}>
+            <p>{a}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .faq { padding-block: 56px; }
+  .grid { display: flex; flex-direction: column; }
+  .h2 { margin-bottom: 18px; }
+  h3 { font: inherit; }
+  @media (max-width: 959.98px) { .full-a :global(.faq-a) { padding: 0 0 18px; } }
+  @media (min-width: 960px) {
+    .faq { padding-block: var(--pad-d); }
+    .grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 48px; padding-inline: calc(var(--gutter) + 16px); }
+    .h2 { grid-column: span 4; margin: 0; }
+    .faq-list { grid-column: span 8; }
+  }
+</style>
