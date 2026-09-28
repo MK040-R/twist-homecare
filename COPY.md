@@ -84,7 +84,7 @@ The site reads its copy from the code files named in each section, not from this
 |---|---|---|---|
 | label | Everyday loads | Quick cycle | Hand wash |
 | line | For the daily pile. | For sweaty synthetics or lightly worn clothes. | For intimate stains, washed by hand. |
-| tags | Cottons · Blends · Bedsheets · Towels | Gym wear · Athleisure · Cotton | Innerwear · Period stains · Lingerie |
+| tags | All fabric types | Gym wear · Athleisure · Cotton | Innerwear · Period stains · Lingerie |
 | line under tags (desktop) | Gentle on fabric. Protects against 8 signs of fabric ageing. | No re-stink, even after 50 washes. | Removes 6 types of intimate stains. |
 | buttons | Notify me · Learn more | Notify me · Learn more | Notify me · Learn more |
 
@@ -100,7 +100,7 @@ The site reads its copy from the code files named in each section, not from this
 - **expl.d**: Detergents are often made strongly alkaline, because a high pH breaks down grease and stains fast. The same alkalinity can leave skin dry and irritated, and wears fibres down wash after wash.
 - **proof**: Laundry liquids typically wash at pH 9 or higher. Healthy skin sits below pH 5.
 - **ours**: Each formula is being built to clean at the gentlest pH that does the job.
-- **illustration**: SKIN < 5 · LIQUID 9+ (mobile); HEALTHY SKIN · BELOW 5 · LAUNDRY LIQUID · 9+ · ACIDIC · NEUTRAL · ALKALINE (desktop)
+- **illustration**: Skin < 5 · Liquid 9+ (mobile); Healthy skin · below 5 · Laundry liquid · 9+ · Acidic · Neutral · Alkaline (desktop). All illustration labels are in sentence case; no uppercase anywhere on the site.
 
 **02 Doesn't protect fabric**
 - **expl.m**: Detergents are sold on how clean clothes look after one wash, not on what fifty washes do to colour, stretch and strength.

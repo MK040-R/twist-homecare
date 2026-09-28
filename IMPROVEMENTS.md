@@ -1,6 +1,6 @@
 # Where the build differs from the designs
 
-The designs in `design-handoff/` were treated as the visual baseline: tokens, type, layout and section order. Each difference below is either something you asked for, or a usability or accessibility fix I made. **The second group needs your approval.** Anything you don't want, tell me and I'll revert it.
+The designs in `design-handoff/` were treated as the visual baseline: tokens, type, layout and section order. Each difference below is either something you asked for, or a usability or accessibility fix I made. All of them are now approved (28 September 2026).
 
 The side-by-side screenshots in `qa/` show all of these as intended differences.
 
@@ -18,15 +18,15 @@ The side-by-side screenshots in `qa/` show all of these as intended differences.
 | 8 | Product pages, How it works | "[Name]™ technology" in a dark pill that looks like a button | Plain Eczar text with a yellow underline, so it can't be mistaken for a button. |
 | 9 | Copy throughout | See the copy doc | Your revised copy, plus the defaults listed in `PLACEHOLDERS.md` for the questions you skipped. |
 
-## I made these (please approve)
+## I proposed these (approved)
 
 | # | Where | Design | Build | Why |
 |---|---|---|---|---|
-| 10 | Mobile labels (homepage) | 10px uppercase labels on the homepage only; 12px everywhere else | 12px everywhere | 10px uppercase is hard to read on a phone, and the other pages already used 12px. |
-| 11 | Arrows (→ ↓ ←) | Typed as characters | Small line icons | Neither Eczar nor Mukta contains arrow characters, so phones were drawing them in a random fallback font. |
+| 10 | Labels, callouts, table headings, placeholders, illustration text | Uppercase with wide letter-spacing | **No uppercase anywhere on the site** (your decision): sentence case, 13px semibold labels with normal spacing. Illustration labels are sentence case too; acronyms stay as written (BIS, OK, mg/L, HE, IFRA). | Easier to read, and consistent. |
+| 11 | Arrows (→ ↓ ←) | Typed as characters | Small line icons drawn to match the text | Neither Eczar nor Mukta contains arrow characters. Typed arrows would still appear, but in whatever font each phone falls back to, so they'd look different on iPhone and Android. The icons look the same everywhere. |
 | 12 | Carousel dots | Decorative | Tappable, with 44px tap areas, and labelled for screen readers ("Show Quikwash") | The brief requires it. They look the same. |
 | 13 | Homepage product cards (desktop) | Line under the card in quotation marks, e.g. "“A short wash should still be a complete wash.”" | Your new lines without quotation marks | Claims inside quotation marks read like customer testimonials, which the brief rules out. |
-| 14 | Everyday Wash card tags | You changed them to "All fabric types" | Cottons · Blends · Bedsheets · Towels (the original) | Everyday Wash contains protease, which breaks down protein fibres such as wool and silk. "All fabric types" would likely be untrue. |
+| 14 | Everyday Wash card tags | Cottons · Blends · Bedsheets · Towels | "All fabric types" (your decision) | Kept at your request. See the protease note in `PLACEHOLDERS.md`. |
 | 15 | Everyday Wash card line (desktop) | "7 signs of fabric ageing" in your edit | "8 signs" | The Everyday Wash page headline and its eight tiles say 8. |
 | 16 | "The other two" labels | Differed from page to page | Everyday loads · Sweat and odour · Hand wash, the same everywhere | Consistency. The homepage cards keep your own labels. |
 | 17 | Image alt text | Mobile and desktop used different wording; the ageing photos repeated their captions | One alt text per photo (the more descriptive desktop version); the ageing photos are marked decorative | Screen readers otherwise read each caption twice. |

@@ -22,7 +22,7 @@ const cards: {
 }[] = [
   {
     id: 'everyday-wash', label: 'Everyday loads', line: 'For the daily pile.',
-    tags: ['Cottons', 'Blends', 'Bedsheets', 'Towels'],
+    tags: ['All fabric types'],
     quote: 'Gentle on fabric. Protects against 8 signs of fabric ageing.',
     img: bottleEveryday, alt: ALT.bottle['everyday-wash'], hM: 160, hD: 270,
   },
@@ -425,7 +425,7 @@ const route = [
     .tabpanel[hidden] { display: none; }
     .tabpanel:focus-visible { outline-offset: 4px; }
     .tabpanel .illus { border-radius: 20px; height: 250px; padding: 0 24px; overflow: hidden; }
-    .tabpanel .illus :global(svg) { max-width: 620px; max-height: 210px; }
+    .tabpanel .illus :global(svg) { width: 100%; max-width: 620px; height: auto; max-height: 210px; }
     .tp-text { display: flex; flex-direction: column; gap: 12px; }
     .tp-text h3 { font-size: 34px; font-weight: 500; letter-spacing: -0.02em; }
     .tabpanel .expl { font-size: 17px; line-height: 1.6; }
@@ -479,12 +479,12 @@ const route = [
   .about { padding-block: 56px; }
   .about-inner { display: flex; flex-direction: column; gap: 16px; }
   .about-photo { display: flex; flex-direction: column; gap: 16px; }
-  .about-photo .ph { height: 240px; border-radius: 18px; font-size: 11px; }
+  .about-photo .ph { height: 240px; border-radius: 18px; }
   @media (min-width: 960px) {
     .about { padding-block: 130px; }
     .about-inner { flex-direction: row; align-items: center; gap: 80px; padding-inline: calc(var(--gutter) + 16px); }
     .about-photo { gap: 12px; flex-shrink: 0; }
-    .about-photo .ph { width: 400px; height: 320px; border-radius: 20px; font-size: 12px; }
+    .about-photo .ph { width: 400px; height: 320px; border-radius: 20px; }
     .about-body { max-width: 640px; }
   }
 </style>
